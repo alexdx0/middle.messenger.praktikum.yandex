@@ -1,0 +1,14 @@
+<div class="main-layout">
+  <div class="left-side">
+    {{> Link title="Профиль >" className="link-to-profile" to="profile"}}
+    {{> SearchInput name="search"}}
+    {{> ContactsList }}
+  </div>
+  <div class="right-side">
+    <div class="contact-info">
+
+    </div>
+    {{> MessagesList messages=this.contacts.1.messages}}
+    <div class="messaging"></div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.error-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+  height: 100%;
+  width: 100%;
+  color: #1E1E1E;
+  text-align: center;
+  font-weight: 500;
+
+  .error-page__error-code {
+    font-size: 5rem;
+    line-height: 5rem;
+  }
+
+  .error-page__error-description {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}

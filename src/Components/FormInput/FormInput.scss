@@ -1,0 +1,41 @@
+.form-input {
+  position: relative;
+
+  hr {
+    border: none;
+    border-bottom: 1px solid #3369F3;
+    width: 100%;
+    margin: 0;
+    margin-top: -5px;
+  }
+
+  &__title {
+    color: #999;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    cursor: default;
+  }
+
+  &__input {
+    position: relative;
+    outline: none;
+    border: none;
+    color: #1E1E1E;
+    font-style: normal;
+    font-weight: 500;
+    background-color: transparent;
+    line-height: 2rem;
+    font-size: 1rem;
+  }
+
+  &__validation {
+    color: #FF2F2F;
+    font-size: 0.8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.8rem;
+    cursor: default;
+  }
+}
