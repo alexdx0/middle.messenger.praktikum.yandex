@@ -1,7 +1,6 @@
 export { MessagesList } from "./MessagesList";
 export { ContactsList } from "./ContactsList";
 export { SearchInput } from "./SearchInput";
-export { Button } from "./Button";
 export { Link } from "./Link";
 export { ContactCard } from "./ContactCard";
 export { MessageInput } from "./MessageInput";

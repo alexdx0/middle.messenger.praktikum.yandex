@@ -8,7 +8,7 @@
 
 
 ### Ссылка на проект в netlify
-https://chipper-pudding-631af2.netlify.app/
+https://spectacular-empanada-1ab232.netlify.app/
 
 ### Макеты
 https://www.figma.com/file/jF5fFFzgGOxQeB4CmKWTiE/Chat_external_link?node-id=0%3A1&mode=dev

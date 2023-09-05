@@ -88,6 +88,6 @@ module.exports = {
         functions: "never",
       },
     ],
-    // "eol-last": ["error", "always"],
+    "eol-last": ["error", "always"],
   },
 };
