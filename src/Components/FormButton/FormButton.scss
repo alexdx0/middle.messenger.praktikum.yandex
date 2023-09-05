@@ -1,0 +1,22 @@
+%form-utton {
+  font-family: consolas;
+  font-size: 1rem;
+  width: 280px;
+  height: 2.5rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.form-button {
+
+  @extend %form-utton;
+  border-radius: 8px;
+  background: #3369F3;
+
+  &_transparent {
+    @extend %form-utton;
+    background: transparent;
+    color: #3369F3;
+  }
+}

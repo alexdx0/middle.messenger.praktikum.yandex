@@ -1,0 +1,31 @@
+.signin-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #FFFFFF;
+  height: 100%;
+  width: 100%;
+
+  .signin-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    border-radius: 12px;
+    background: #FFF;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.14);
+    padding: 3rem;
+
+    &__title {
+      margin-bottom: 2rem;
+      color: #1E1E1E;
+      text-align: center;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      cursor: default;
+    }
+  }
+}

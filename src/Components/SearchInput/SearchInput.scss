@@ -1,0 +1,27 @@
+.search-input {
+  position: relative;
+  padding: 10px;
+  display: flex;
+  justify-content: stretch;
+
+  &:has(.search-input__input:not(:focus))::after {
+    content: url("@assets/icons/search.svg");
+    height: 20px;
+    color: #999;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+  }
+
+  .search-input__input {
+    outline: none;
+    border: none;
+    color: #999;
+    background-color: #EFEFEF;
+    border-radius: 5px;
+    width: 100%;
+    line-height: 1.5rem;
+    font-size: 1rem;
+  }
+}

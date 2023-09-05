@@ -1,0 +1,27 @@
+<main class="profile-page">
+  <section class="profile-page__backward">
+    <div class="arrow-button_left" linkTo="main"></div>
+  </section>
+  <section class="profile-page__content">
+    <div class="profile-avatar"></div>
+    <div class="profile-name">{{name}}</div>
+    <form class="profile-form" action="">
+      {{> ProfileField label="Почта" name="email" value="middle@ya.ru"}}
+      {{> ProfileField label="Логин" name="login" value="IVAN"}}
+      {{> ProfileField label="Имя" name="name" value="Ivan"}}
+      {{> ProfileField label="Фамилия" name="surname" value="Ivanov"}}
+      {{> ProfileField label="Имя в чате" name="chatName" value="IVAN"}}
+      {{> ProfileField label="Телефон" name="phone" type="tel" value="+7(777)-777-77-77"}}
+      <br>
+      <div class="profile-form__actions">
+        {{#if edit}}
+        {{> FormButton title="Сохранить" linkTo="main"}}
+        {{else}}
+        {{> FormButton title="Изменить данные" transparent=true linkTo="editProfile"}}
+        {{> FormButton title="Изменить пароль" transparent=true}}
+        {{> FormButton title="Выйти" transparent=true}}
+        {{/if}}
+      </div>
+    </form>
+  </section>
+</main>
