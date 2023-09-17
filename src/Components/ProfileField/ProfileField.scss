@@ -1,0 +1,42 @@
+.profile-field {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  line-height: 1rem;
+  padding: 1rem 0.5rem;
+  cursor: default;
+
+  &__label {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1rem;
+  }
+
+  &__input {
+    color: #999;
+    display: inline-block;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1rem;
+
+    input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #999;
+      text-align: right;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0.7rem;
+    left: 0;
+    height: 1px;
+    border-bottom: 1px solid #EAEAEA;
+    width: 100%;
+  }
+}

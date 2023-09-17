@@ -1,0 +1,25 @@
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto;
+
+  height: 100%;
+  width: 100%;
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+
+  background: #FBFBFB;
+  border-right: 1px solid #EAEAEA;
+  padding: 0 10px;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+  background: #ffffff;
+}

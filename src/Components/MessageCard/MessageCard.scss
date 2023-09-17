@@ -1,0 +1,18 @@
+.message-card {
+  display: block;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 5px;
+  padding: 0.5rem;
+  max-width: 70%;
+
+  &_my {
+    align-self: flex-end;
+    background-color: #E4EDFD;
+  }
+
+  &_his {
+    align-self: flex-start;
+    background-color: #F8F8F8;
+  }
+}
