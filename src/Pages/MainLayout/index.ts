@@ -1,2 +1,2 @@
 import "./MainLayout.scss";
-export { default as MainLayout } from "./MainLayout.hbs";
+export { MainLayout } from "./MainLayout";

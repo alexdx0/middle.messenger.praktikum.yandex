@@ -1,2 +1,2 @@
 import "./SigninPage.scss";
-export { default as SigninPage } from "./SigninPage.hbs";
+export { SigninPage } from "./SigninPage";

@@ -1,2 +1,2 @@
 import "./MessageInput.scss";
-export { default as MessageInput } from "./MessageInput.hbs";
+export { MessageInput } from "./MessageInput";

@@ -9,7 +9,8 @@
       "@assets/*": ["src/assets/*"],
       "@services/*": ["src/services/*"],
       "@Pages/*": ["src/Pages/*"],
-      "@Pages": ["src/Pages"]
+      "@Pages": ["src/Pages"],
+      "@Core": ["src/core"]
     }
   }
 }
