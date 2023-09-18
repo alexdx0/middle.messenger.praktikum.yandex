@@ -1,4 +1,4 @@
-import { MessageModel } from "@models/MessageModel";
+import { MessageModel } from "@models/MessageModel_";
 
 export interface ContactsListItemModel {
   name: string;

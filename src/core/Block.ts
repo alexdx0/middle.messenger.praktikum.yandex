@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-use-before-define */
+// TODO remove nanoid
 import { nanoid } from "nanoid";
 // import Handlebars from "handlebars";
 
 import EventBus from "./EventBus";
+
+// TODO no-explicit-any
 
 // Нельзя создавать экземпляр данного класса
 export class Block {
@@ -16,12 +19,12 @@ export class Block {
   };
 
   public id = nanoid(6);
-  protected props: any;
+  protected props: Record<string, unknown>;
   protected refs: Record<string, Block> = {};
   public children: Record<string, Block>;
   private eventBus: () => EventBus;
-  private _element: HTMLElement | null = null;
-  private _meta: { props: any; };
+  protected _element: HTMLElement | null = null;
+  private _meta: { props: Record<string, unknown>; };
 
   /** JSDoc
    * @param {string} tagName
@@ -101,16 +104,16 @@ export class Block {
   }
 
   private _componentDidUpdate(oldProps: any, newProps: any) {
-    if (this.componentDidUpdate(oldProps, newProps)) {
+    if (this.componentShouldUpdate(oldProps, newProps)) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
-  protected componentDidUpdate(_oldProps: any, _newProps: any) {
+  protected componentShouldUpdate(_oldProps: Record<string, unknown>, _newProps: Record<string, unknown>) {
     return true;
   }
 
-  setProps = (nextProps: any) => {
+  setProps = (nextProps: Record<string, unknown>) => {
     if (!nextProps) {
       return;
     }

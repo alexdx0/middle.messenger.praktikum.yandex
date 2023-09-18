@@ -1,20 +1,16 @@
 import { Block } from "@Core";
-import contacts from "@services/stubs/ContactsListStub";
+import chats from "@services/stubs/ContactsListStub";
 
 import MessagesListHbs from "./MessagesList.hbs";
 
-interface IMessagesListProps {
-  messages: [];
-}
-
 export class MessagesList extends Block {
-  constructor(props: IMessagesListProps) {
-    super(props);
-    this.props.messages = contacts[1].messages;
+  constructor() {
+    super();
+    this.props.messages = [chats[1].last_message];
+    this.props.title = chats[1].title;
   }
 
   protected render() {
-    // console.log(" MessagesList props", this.props);
     return MessagesListHbs;
   }
 }
