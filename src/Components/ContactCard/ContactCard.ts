@@ -9,12 +9,8 @@ interface IContactCardProps {
 }
 
 export class ContactCard extends Block {
-  constructor(props: IContactCardProps) {
-    super(props);
-    this.props.messages = contacts[1].messages;
-  }
-
   protected render() {
+    console.log("ContactCard props", this.props);
     return ContactCardHbs;
   }
 }

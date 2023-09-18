@@ -14,7 +14,7 @@ export class MessagesList extends Block {
   }
 
   protected render() {
-    console.log(" MessagesList props", this.props);
+    // console.log(" MessagesList props", this.props);
     return MessagesListHbs;
   }
 }

@@ -11,26 +11,7 @@
       "types/"
     ],
     "types": ["vite/client"],
-
-    // 
-
     "baseUrl": ".",
-    // "outDir": "build/dist",
-    // "sourceMap": true,
-    // "allowJs": true,
-    // "jsx": "react-jsx",
-    // "rootDir": "src",
-    // "forceConsistentCasingInFileNames": true,
-    // "allowSyntheticDefaultImports": true,
-    // "noImplicitReturns": true,
-    // "noImplicitThis": true,
-    // "noImplicitAny": false,
-    // "strictNullChecks": false,
-    // "noUnusedLocals": false,
-    // "experimentalDecorators": true,
-    // "esModuleInterop": true,    
-
-    // 
 
     /* Bundler mode */
     "moduleResolution": "bundler",
