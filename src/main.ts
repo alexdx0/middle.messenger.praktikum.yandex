@@ -25,13 +25,13 @@ function navigate(page: keyof typeof blockPages) {
 
 navigate("LoginPage");
 
-// document.addEventListener("click", e => {
-//   const target = e.target as HTMLButtonElement;
-//   const page = target.getAttribute("linkTo");
-//   if (page) {
-//     navigate(page as keyof typeof blockPages);
+document.addEventListener("click", e => {
+  const target = e.target as HTMLButtonElement;
+  const page = target.getAttribute("linkTo");
+  if (page) {
+    navigate(page as keyof typeof blockPages);
 
-//     e.preventDefault();
-//     e.stopImmediatePropagation();
-//   }
-// });
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }
+});

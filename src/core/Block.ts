@@ -1,38 +1,37 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-use-before-define */
 // TODO remove nanoid
 import { nanoid } from "nanoid";
-// import Handlebars from "handlebars";
 
-import EventBus from "./EventBus";
+import EventBus, { Listener } from "./EventBus";
 
-// TODO no-explicit-any
+type BlockPropsType = Record<string, unknown | Block>;
+type RootChildren = {
+  component: Block,
+  embed(fragment: DocumentFragment): void;
+}
+type ContextAndStubsType = BlockPropsType & {"__refs": BlockPropsType} & {"__children"?: RootChildren[]};
 
 // Нельзя создавать экземпляр данного класса
 export class Block {
   static EVENTS = {
     INIT: "init",
+    /** ComponentDidMount */
     FLOW_CDM: "flow:component-did-mount",
+    /** ComponentDidUpdate */
     FLOW_CDU: "flow:component-did-update",
+    /** Render */
     FLOW_RENDER: "flow:render",
   };
 
   public id = nanoid(6);
-  protected props: Record<string, unknown>;
-  protected refs: Record<string, Block> = {};
-  public children: Record<string, Block>;
+  protected props: BlockPropsType;
+  protected refs: BlockPropsType = {};
+  public children: BlockPropsType;
   private eventBus: () => EventBus;
   protected _element: HTMLElement | null = null;
-  private _meta: { props: Record<string, unknown>; };
+  private _meta: { props: BlockPropsType; };
 
-  /** JSDoc
-   * @param {string} tagName
-   * @param {Object} props
-   *
-   * @returns {void}
-   */
-  constructor(propsWithChildren: any = {}) {
+  constructor(propsWithChildren: BlockPropsType = {}) {
     const eventBus = new EventBus();
 
     const { props, children } = this._getChildrenAndProps(propsWithChildren);
@@ -51,8 +50,8 @@ export class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildrenAndProps(childrenAndProps: any) {
-    const props: Record<string, any> = {};
+  _getChildrenAndProps(childrenAndProps: BlockPropsType) {
+    const props: BlockPropsType = {};
     const children: Record<string, Block> = {};
 
     Object.entries(childrenAndProps).forEach(([key, value]) => {
@@ -77,7 +76,7 @@ export class Block {
   _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this) as Listener<unknown[]>);
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -100,17 +99,17 @@ export class Block {
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
 
-    Object.values(this.children).forEach(child => child.dispatchComponentDidMount());
+    Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
   }
 
-  private _componentDidUpdate(oldProps: any, newProps: any) {
+  private _componentDidUpdate(oldProps: BlockPropsType, newProps: BlockPropsType) {
     if (this.componentShouldUpdate(oldProps, newProps)) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
-  protected componentShouldUpdate(_oldProps: Record<string, unknown>, _newProps: Record<string, unknown>) {
-    return true;
+  protected componentShouldUpdate(oldProps: Record<string, unknown>, _newProps: Record<string, unknown>) {
+    return oldProps !== _newProps;
   }
 
   setProps = (nextProps: Record<string, unknown>) => {
@@ -139,8 +138,8 @@ export class Block {
     this._addEvents();
   }
 
-  private compile(template: (context?: Record<string, unknown>) => string, context: any) {
-    const contextAndStubs = { ...context, __refs: this.refs };
+  private compile(template: HandlebarsTemplateDelegate, context: BlockPropsType) {
+    const contextAndStubs: ContextAndStubsType = { ...context, __refs: this.refs };
 
     const html = template(contextAndStubs);
 
@@ -148,7 +147,7 @@ export class Block {
 
     temp.innerHTML = html;
 
-    contextAndStubs.__children?.forEach(({ embed }: any) => {
+    contextAndStubs.__children?.forEach(({ embed }: Pick<RootChildren, "embed">) => {
       embed(temp.content);
     });
 
@@ -163,31 +162,25 @@ export class Block {
     return this.element;
   }
 
-  _makePropsProxy(props: any) {
-    // Ещё один способ передачи this, но он больше не применяется с приходом ES6+
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
-
+  _makePropsProxy = (props: BlockPropsType) => {
     return new Proxy(props, {
-      get(target, prop) {
+      get: (target, prop: string) => {
         const value = target[prop];
         return typeof value === "function" ? value.bind(target) : value;
       },
-      set(target, prop, value) {
+      set: (target, prop: string, value) => {
         const oldTarget = { ...target };
 
         target[prop] = value;
 
-        // Запускаем обновление компоненты
-        // Плохой cloneDeep, в следующей итерации нужно заставлять добавлять cloneDeep им самим
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
-      deleteProperty() {
+      deleteProperty: () => {
         throw new Error("Нет доступа");
       },
     });
-  }
+  };
 
   _createDocumentElement(tagName: string) {
     // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
