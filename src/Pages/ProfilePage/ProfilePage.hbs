@@ -6,18 +6,18 @@
     <div class="profile-avatar"></div>
     <div class="profile-name">{{name}}</div>
     <form class="profile-form" action="">
-      {{{ ProfileField label="Почта" name="email" value="middle@ya.ru" }}}
-      {{{ ProfileField label="Логин" name="login" value="IVAN" }}}
-      {{{ ProfileField label="Имя" name="first_name" value="Ivan" }}}
-      {{{ ProfileField label="Фамилия" name="second_name" value="Ivanov" }}}
-      {{{ ProfileField label="Имя в чате" name="display_name" value="IVAN" }}}
-      {{{ ProfileField label="Телефон" name="phone" type="tel" value="+7(777)-777-77-77" }}}
+      {{{ ProfileField label="Почта" name="email" ref="email" value="middle@ya.ru" edit=edit validateFn=validateFns.email }}}
+      {{{ ProfileField label="Логин" name="login" ref="login" value="IVAN" edit=edit validateFn=validateFns.login }}}
+      {{{ ProfileField label="Имя" name="first_name" ref="first_name" value="Ivan" edit=edit validateFn=validateFns.name }}}
+      {{{ ProfileField label="Фамилия" name="second_name" ref="second_name" value="Ivanov" edit=edit validateFn=validateFns.name }}}
+      {{{ ProfileField label="Имя в чате" name="display_name" ref="display_name" value="IVAN" edit=edit }}}
+      {{{ ProfileField label="Телефон" name="phone" ref="phone" type="tel" value="+7(777)-777-77-77" edit=edit validateFn=validateFns.phone }}}
       <br>
       <div class="profile-form__actions">
         {{#if edit}}
-        {{{ FormButton title="Сохранить" linkTo="MainLayout" }}}
+        {{{ FormButton title="Сохранить" linkTo="MainLayout" onClick=onSave}}}
         {{else}}
-        {{{ FormButton title="Изменить данные" transparent=true linkTo="ProfilePage" }}}
+        {{{ FormButton title="Изменить данные" transparent=true linkTo="EditProfilePage" }}}
         {{{ FormButton title="Изменить пароль" transparent=true }}}
         {{{ FormButton title="Выйти" transparent=true }}}
         {{/if}}

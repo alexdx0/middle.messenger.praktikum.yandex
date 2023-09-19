@@ -4,15 +4,18 @@ import { nanoid } from "nanoid";
 
 import EventBus, { Listener } from "./EventBus";
 
-type BlockPropsType = Record<string, unknown | Block>;
+type BlockPropsType = Record<string, unknown | Block<BlockPropsType>> &
+{ events?: Record<string, () => void> } & object;
+
 type RootChildren = {
-  component: Block,
+  component: Block<BlockPropsType>,
   embed(fragment: DocumentFragment): void;
 }
-type ContextAndStubsType = BlockPropsType & {"__refs": BlockPropsType} & {"__children"?: RootChildren[]};
+
+type ContextAndStubsType = BlockPropsType & { "__refs": BlockPropsType } & { "__children"?: RootChildren[] };
 
 // Нельзя создавать экземпляр данного класса
-export class Block {
+export class Block<Tprops extends BlockPropsType = BlockPropsType> {
   static EVENTS = {
     INIT: "init",
     /** ComponentDidMount */
@@ -24,14 +27,14 @@ export class Block {
   };
 
   public id = nanoid(6);
-  protected props: BlockPropsType;
-  protected refs: BlockPropsType = {};
+  protected props: Tprops;
+  protected refs: Record<string, Block> = {};
   public children: BlockPropsType;
   private eventBus: () => EventBus;
   protected _element: HTMLElement | null = null;
   private _meta: { props: BlockPropsType; };
 
-  constructor(propsWithChildren: BlockPropsType = {}) {
+  constructor(propsWithChildren: Tprops = {} as Tprops) {
     const eventBus = new EventBus();
 
     const { props, children } = this._getChildrenAndProps(propsWithChildren);
@@ -40,8 +43,8 @@ export class Block {
       props,
     };
 
-    this.children = children;
-    this.props = this._makePropsProxy(props);
+    this.children = children as BlockPropsType;
+    this.props = this._makePropsProxy(props) as Tprops;
 
     this.eventBus = () => eventBus;
 
@@ -51,7 +54,7 @@ export class Block {
   }
 
   _getChildrenAndProps(childrenAndProps: BlockPropsType) {
-    const props: BlockPropsType = {};
+    const props: BlockPropsType = {} as BlockPropsType;
     const children: Record<string, Block> = {};
 
     Object.entries(childrenAndProps).forEach(([key, value]) => {
@@ -66,7 +69,7 @@ export class Block {
   }
 
   _addEvents() {
-    const { events = {} } = this.props as { events: Record<string, () => void> };
+    const { events = {} } = this.props;
 
     Object.keys(events).forEach(eventName => {
       this._element?.addEventListener(eventName, events[eventName]);

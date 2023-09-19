@@ -1,10 +1,13 @@
-<div class="profile-field">
-  <span class="profile-field__label">{{label}}</span>
-  <div class="profile-field__input">
-    {{#if edit}}
-    <input type={{#if type}}{{type}}{{else}}"text"{{/if}} name={{name}} value={{value}}>
-    {{else}}
-    <span>{{value}}</span>
-    {{/if}}
+<div class="profile-field-container">
+  <div class="profile-field">
+    <span class="profile-field__label">{{label}}</span>
+    <div class="profile-field__input">
+      {{#if edit}}
+      {{{ SimpleInput className="" value=value type=type name=name ref="input" onBlur=onBlur }}}
+      {{else}}
+      <span>{{value}}</span>
+      {{/if}}
+    </div>
   </div>
+  {{{ InputValidation ref="inputValidation" validateStr=""}}}
 </div>

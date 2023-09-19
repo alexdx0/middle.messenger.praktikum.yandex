@@ -5,7 +5,7 @@ import checker from "vite-plugin-checker";
 // import handlebars from "vite-plugin-handlebars";
 
 import tsconfig from "./tsconfig.paths.json";
-import handlebars from "./src/utils/vite-plugin-handlebars-precompile";
+import handlebars from "./src/core/vite-plugin-handlebars-precompile";
 
 export default defineConfig({
   server: {

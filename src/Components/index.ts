@@ -9,3 +9,4 @@ export { FormInput } from "./FormInput";
 export { FormButton } from "./FormButton";
 export { ProfileField } from "./ProfileField";
 export { SimpleInput } from "./SimpleInput";
+export { InputValidation } from "./InputValidation";

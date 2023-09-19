@@ -1,29 +1,50 @@
 import "./style.scss";
 
 import * as Pages from "@Pages";
-import { RegisterComponents } from "@utils/RegisterComponents";
+import { RegisterComponents } from "@Core/RegisterComponents";
 import { Block } from "@Core";
 
 RegisterComponents();
 
-const blockPages: Partial<Record<keyof typeof Pages, typeof Block>> = {
+const blockPages: Partial<Record<string, typeof Block<Record<string, unknown>>>> = {
   SigninPage: Pages.SigninPage,
   LoginPage: Pages.LoginPage,
   MainLayout: Pages.MainLayout,
   ProfilePage: Pages.ProfilePage,
+  EditProfilePage: Pages.ProfilePage,
   ErrorPage: Pages.ErrorPage,
+  NotFoundPage: Pages.ErrorPage,
 };
 
 function navigate(page: keyof typeof blockPages) {
   const app = document.getElementById("root")!;
 
-  const Component = blockPages[page];
-  const component = new Component!();
+  const BlockComponent = blockPages[page];
+
+  let component;
+  switch (page) {
+  case "EditProfilePage":
+    component = new BlockComponent!({ edit: true });
+    break;
+
+  case "ErrorPage":
+    component = new BlockComponent!({ code: "500", description: "Мы уже фиксим" });
+    break;
+
+  case "NotFoundPage":
+    component = new BlockComponent!({ code: "404", description: "Не туда попали" });
+    break;
+
+  default:
+    component = new BlockComponent!();
+    break;
+  }
+
   app.innerHTML = "";
   app?.append(component.getContent()!);
 }
 
-navigate("LoginPage");
+navigate("SigninPage");
 
 document.addEventListener("click", e => {
   const target = e.target as HTMLButtonElement;
