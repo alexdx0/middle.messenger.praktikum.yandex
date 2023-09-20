@@ -62,11 +62,21 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType> {
     return { props, children };
   }
 
+  /** Метод добавления обработчиков на события, перереданные блоку через props.events */
   _addEvents() {
     const { events = {} } = this.props;
 
     Object.keys(events).forEach(eventName => {
       this._element?.addEventListener(eventName, events[eventName]);
+    });
+  }
+
+  /** Метод удаления обработчиков с события, перереданных блоку через props.events */
+  _removeEvents() {
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach(eventName => {
+      this._element?.removeEventListener(eventName, events[eventName]);
     });
   }
 
@@ -123,8 +133,9 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType> {
 
   private _render() {
     const fragment = this.compile(this.render(), this.props);
-
     const newElement = fragment.firstElementChild as HTMLElement;
+
+    this._removeEvents();
 
     if (this._element) {
       this._element.replaceWith(newElement);

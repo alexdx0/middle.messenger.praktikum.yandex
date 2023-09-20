@@ -1,8 +1,8 @@
 import "./style.scss";
 
-import * as Pages from "@Pages";
 import { RegisterComponents } from "@Core/RegisterComponents";
 import { Block } from "@Core";
+import * as Pages from "@Pages";
 
 RegisterComponents();
 
