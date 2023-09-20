@@ -1,3 +1,5 @@
+@use '@styles/variables' as v;
+
 %form-utton {
   font-family: consolas;
   font-size: 1rem;
@@ -12,11 +14,11 @@
 
   @extend %form-utton;
   border-radius: 8px;
-  background: #3369F3;
+  background: v.$c-blue;
 
   &_transparent {
     @extend %form-utton;
     background: transparent;
-    color: #3369F3;
+    color: v.$c-blue;
   }
 }

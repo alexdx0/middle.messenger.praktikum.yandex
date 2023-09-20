@@ -1,5 +1,7 @@
+@use '@styles/variables' as v;
+
 .input-validation {
-    color: #FF2F2F;
+    color: v.$c-red;
     font-size: 0.8rem;
     font-style: normal;
     font-weight: 400;

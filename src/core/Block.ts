@@ -1,6 +1,5 @@
 /* eslint-disable no-use-before-define */
-// TODO remove nanoid
-import { nanoid } from "nanoid";
+import { v4 as makeUUID } from "uuid";
 
 import EventBus, { Listener } from "./EventBus";
 
@@ -26,7 +25,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType> {
     FLOW_RENDER: "flow:render",
   };
 
-  public id = nanoid(6);
+  public id = makeUUID();
   protected props: Tprops;
   protected refs: Record<string, Block> = {};
   public children: BlockPropsType;

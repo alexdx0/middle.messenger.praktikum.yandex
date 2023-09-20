@@ -1,3 +1,5 @@
+@use '@styles/variables' as v;
+
 .chat-card {
   display: flex;
   position: relative;
@@ -28,14 +30,14 @@
 
   &__contact-name {
     display: flex;
-    color: #1E1E1E;
+    color: v.$c-title;
     font-style: normal;
     font-weight: 600;
   }
 
   &__last-message-time {
     display: flex;
-    color: #999;
+    color: v.$c-gray;
     text-align: right;
     font-size: 0.8rem;
     font-style: normal;
@@ -55,8 +57,8 @@
 
   &__new-mwssages-count {
     position: absolute;
-    background-color: #3369F3;
-    color: rgb(255, 255, 255);
+    background-color: v.$c-blue;
+    color: v.$c-white;
     border-radius: 1rem;
     height: 20px;
     width: 20px;

@@ -27,11 +27,13 @@
     "vite-plugin-handlebars": "^1.6.0"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.4",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-html": "^7.1.0",
     "express": "^4.18.2",
     "handlebars": "^4.7.8",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "uuid": "^9.0.1"
   }
 }

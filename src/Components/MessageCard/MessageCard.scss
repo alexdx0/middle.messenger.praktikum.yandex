@@ -1,3 +1,5 @@
+@use '@styles/variables' as v;
+
 .message-card {
   display: block;
   flex-direction: column;
@@ -8,11 +10,11 @@
 
   &_my {
     align-self: flex-end;
-    background-color: #E4EDFD;
+    background-color: v.$c-card-my;
   }
 
   &_his {
     align-self: flex-start;
-    background-color: #F8F8F8;
+    background-color: v.$c-card-his;
   }
 }

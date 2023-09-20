@@ -2,7 +2,6 @@ import { resolve } from "path";
 
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
-// import handlebars from "vite-plugin-handlebars";
 
 import tsconfig from "./tsconfig.paths.json";
 import handlebars from "./src/core/vite-plugin-handlebars-precompile";
@@ -36,10 +35,3 @@ export default defineConfig({
     emptyOutDir: true,
   },
 });
-
-// TODO
-/**
- * - сбор данных из формы
- * - валидация полей на все формы
- * - класс для работы с запросами
- */

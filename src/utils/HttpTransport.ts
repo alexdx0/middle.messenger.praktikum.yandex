@@ -67,12 +67,11 @@ export class HTTPTransport {
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
 
-      // TODO types
-      // if (isGet || !data) {
-      //   xhr.send();
-      // } else {
-      //   xhr.send(data);
-      // }
+      if (isGet || !data) {
+        xhr.send();
+      } else {
+        xhr.send(JSON.stringify(data));
+      }
     });
   };
 }
