@@ -31,16 +31,11 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType> {
   public children: BlockPropsType;
   private eventBus: () => EventBus;
   protected _element: HTMLElement | null = null;
-  private _meta: { props: BlockPropsType; };
 
   constructor(propsWithChildren: Tprops = {} as Tprops) {
     const eventBus = new EventBus();
 
     const { props, children } = this._getChildrenAndProps(propsWithChildren);
-
-    this._meta = {
-      props,
-    };
 
     this.children = children as BlockPropsType;
     this.props = this._makePropsProxy(props) as Tprops;

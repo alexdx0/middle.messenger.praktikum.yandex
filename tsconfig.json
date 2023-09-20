@@ -4,30 +4,41 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types",
       "types/"
     ],
-    "types": ["vite/client"],
-    "baseUrl": ".",
+    "types": [
+      "vite/client"
+    ],
 
-    /* Bundler mode */
+    "baseUrl": ".",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-
-    /* Linting */
+    
     "strict": true,
-    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strictNullChecks": true
   },
   "include": [
     "src/**/*.ts",
     "types"
   ],
-  "exclude": ["node_modules", ".vscode"],
+  "exclude": [
+    "node_modules",
+    ".vscode"
+  ]
 }

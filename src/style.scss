@@ -1,24 +1,20 @@
 @use '@styles/variables' as v;
-
-@import "@styles/flex.scss";
-@import "@styles/common.scss";
-@import "@styles/icons.scss";
+@import "@styles/flex";
+@import "@styles/common";
+@import "@styles/icons";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-
   color: v.$c-black;
   background-color: v.$c-white;
-
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 html {
@@ -31,7 +27,7 @@ body {
   margin: 0;
   height: 100%;
   width: 100%;
-  font-family: consolas;
+  font-family: monospace;
   font-size: 16px;
   color: black;
 }

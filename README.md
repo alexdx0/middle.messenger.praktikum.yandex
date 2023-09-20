@@ -5,6 +5,7 @@
 - Handlebars
 - SCSS
 - ESLint
+- Stylelint
 
 
 ### Ссылка на проект в netlify

@@ -5,6 +5,7 @@
 
 .icon-no-photo {
   @extend %icon;
+
   background-image: url("@assets/icons/contactNoPhoto.svg");
   height: 50px;
   width: 50px;
@@ -12,6 +13,7 @@
 
 .icon-clip {
   @extend %icon;
+
   background-image: url("@assets/icons/clip.svg");
   height: 50px;
   width: 50px;
@@ -19,6 +21,7 @@
 
 .icon-three-dots {
   @extend %icon;
+
   background-image: url("@assets/icons/threeDots.svg");
   height: 16px;
   width: 16px;

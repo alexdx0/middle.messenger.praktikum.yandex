@@ -12,6 +12,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "lint": "eslint src --fix && stylelint \"**/*.scss\" --fix",
     "start": "npm run build && node ./src/express.js"
   },
   "devDependencies": {
