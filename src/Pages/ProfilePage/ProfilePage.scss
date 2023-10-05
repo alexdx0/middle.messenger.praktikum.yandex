@@ -1,8 +1,10 @@
+@use '@styles/variables' as v;
+
 .profile-page {
   display: flex;
   height: 100%;
   width: 100%;
-  color: #1E1E1E;
+  color: v.$c-title;
 
   .profile-page__backward {
     display: flex;
@@ -10,8 +12,8 @@
     justify-content: center;
     align-items: center;
     width: 100px;
-    background-color: #FBFBFB;
-    border-right: 1px solid #EAEAEA;
+    background-color: v.$c-background-gray;
+    border-right: 1px solid v.$c-light-gray;
   }
 
   .profile-page__content {
@@ -21,7 +23,7 @@
     justify-content: center;
     align-items: center;
     row-gap: 2rem;
-    background-color: #FFFFFF;
+    background-color: v.$c-white;
    
     .profile-avatar {
       background-image: url("@assets/icons/avatarPlaceholder.svg");

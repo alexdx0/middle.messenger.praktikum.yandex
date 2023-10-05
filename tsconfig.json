@@ -4,49 +4,41 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types",
       "types/"
     ],
-    "types": ["vite/client"],
-
-    // 
+    "types": [
+      "vite/client"
+    ],
 
     "baseUrl": ".",
-    // "outDir": "build/dist",
-    // "sourceMap": true,
-    // "allowJs": true,
-    // "jsx": "react-jsx",
-    // "rootDir": "src",
-    // "forceConsistentCasingInFileNames": true,
-    // "allowSyntheticDefaultImports": true,
-    // "noImplicitReturns": true,
-    // "noImplicitThis": true,
-    // "noImplicitAny": false,
-    // "strictNullChecks": false,
-    // "noUnusedLocals": false,
-    // "experimentalDecorators": true,
-    // "esModuleInterop": true,    
-
-    // 
-
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-
-    /* Linting */
+    
     "strict": true,
-    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strictNullChecks": true
   },
   "include": [
     "src/**/*.ts",
     "types"
   ],
-  "exclude": ["node_modules", ".vscode"],
+  "exclude": [
+    "node_modules",
+    ".vscode"
+  ]
 }

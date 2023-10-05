@@ -1,1 +1,1 @@
-export { default as MessagesCounter } from "./MessagesCounter.hbs";
+export { MessagesCounter } from "./MessagesCounter";

@@ -5,23 +5,23 @@
         <div class="icon-no-photo"></div>
       </div>
       <div class="contact-info__name">
-        Жора
+        {{title}}
       </div>
     </div>
     <div class="more-button">
-      <div class="icon-three-dots" linkTo="notFound"></div>
+      <div class="icon-three-dots" linkTo="NotFoundPage"></div>
     </div>
   </header>
   <main class="messages-list__content">
     {{#each messages}}
-    {{> MessageCard whose="his" text=this.content}}
+    {{{ MessageCard whose="his" text=this.content }}}
     {{/each}}
   </main>
   <footer class="messages-list__footer">
     <div class="attach-button">
       <div class="icon-clip"></div>
     </div>
-    {{> MessageInput}}
-    <div class="arrow-button_right" linkTo="error"></div>
+    {{{ MessageInput }}}
+    <div class="arrow-button_right" linkTo="ErrorPage"></div>
   </footer>
 </div>

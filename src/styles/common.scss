@@ -1,6 +1,8 @@
+@use '@styles/variables' as v;
+
 .link-to-profile {
   text-decoration: none;
-  color: #999999;
+  color: v.$c-gray;
   text-align: right;
   padding: 10px;
   cursor: pointer;
@@ -21,5 +23,6 @@
 
 .arrow-button_left {
   @extend %arrow-button;
+
   transform: rotate(180deg);
 }

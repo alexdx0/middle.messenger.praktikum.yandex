@@ -1,14 +1,13 @@
-<div class="main-layout">
+<main class="main-layout">
   <div class="left-side">
-    {{> Link title="Профиль >" className="link-to-profile" to="profile"}}
-    {{> SearchInput name="search"}}
-    {{> ContactsList }}
+    {{{ Link title="Профиль >" className="link-to-profile" to="ProfilePage" }}}
+    {{{ SearchInput name="search" }}}
+    {{{ ChatsList }}}
   </div>
   <div class="right-side">
     <div class="contact-info">
-
     </div>
-    {{> MessagesList messages=this.contacts.1.messages}}
+    {{{ MessagesList }}}
     <div class="messaging"></div>
   </div>
-</div>
+</main>

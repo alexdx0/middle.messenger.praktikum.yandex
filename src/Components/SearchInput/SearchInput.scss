@@ -1,3 +1,5 @@
+@use '@styles/variables' as v;
+
 .search-input {
   position: relative;
   padding: 10px;
@@ -7,7 +9,7 @@
   &:has(.search-input__input:not(:focus))::after {
     content: url("@assets/icons/search.svg");
     height: 20px;
-    color: #999;
+    color: v.$c-gray;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -17,8 +19,8 @@
   .search-input__input {
     outline: none;
     border: none;
-    color: #999;
-    background-color: #EFEFEF;
+    color: v.$c-gray;
+    background-color: v.$c-light-gray;
     border-radius: 5px;
     width: 100%;
     line-height: 1.5rem;

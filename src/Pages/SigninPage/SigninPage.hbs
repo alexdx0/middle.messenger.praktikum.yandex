@@ -1,15 +1,15 @@
-<div class="signin-page">
+<main class="signin-page">
   <form class="signin-form" action="">
     <span class="signin-form__title">Регистрация</span>
-    {{> FormInput title="Почта" value="middle@ya.ru" name="email" validation="" }}
-    {{> FormInput title="Логин" value="IVAN" name="login" }}
-    {{> FormInput title="Имя" value="Ivan" name="first_name" }}
-    {{> FormInput title="Фамилия" value="Ivanov" name="second_name" }}
-    {{> FormInput title="Телефон" type="tel" name="phone" value="+7(777)-777-77-77" }}
-    {{> FormInput title="Пароль" type="password" name="password" value="123456" }}
-    {{> FormInput title="Пароль (еще раз)" type="password" name="password" value="1234" validation="Пароли не совпадают"}}
+    {{{ FormInput title="Почта" value="middle@ya.ru" name="email" ref="email" validateFn=validateFns.email }}}
+    {{{ FormInput title="Логин" value="IVAN" name="login" ref="login" validateFn=validateFns.login }}}
+    {{{ FormInput title="Имя" value="Ivan" name="first_name" ref="first_name" validateFn=validateFns.name }}}
+    {{{ FormInput title="Фамилия" value="Ivanov" name="second_name" ref="second_name" validateFn=validateFns.name }}}
+    {{{ FormInput title="Телефон" type="tel" name="phone" value="+76665554433" ref="phone" validateFn=validateFns.phone }}}
+    {{{ FormInput title="Пароль" type="text" name="password" value="1234567A" ref="password" validateFn=validateFns.password }}}
+    {{{ FormInput title="Пароль (еще раз)" type="text" name="password2" value="1234567A" ref="password2" validateFn=validateFns.password }}}
     <br>
-    {{> FormButton title="Зарегистрироваться" linkTo="login"}}
-    {{> FormButton title="Войти" transparent=true}}
+    {{{ FormButton title="Зарегистрироваться" linkTo="LoginPage" onClick=onSignin}}}
+    {{{ FormButton title="Войти" transparent=true}}}
   </form>
-</div>
+</main>

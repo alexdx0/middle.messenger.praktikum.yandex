@@ -1,12 +1,14 @@
+@use '@styles/variables' as v;
+
 .error-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #FFFFFF;
+  background-color: v.$c-white;
   height: 100%;
   width: 100%;
-  color: #1E1E1E;
+  color: v.$c-title;
   text-align: center;
   font-weight: 500;
 

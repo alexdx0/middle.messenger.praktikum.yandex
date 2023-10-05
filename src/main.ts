@@ -1,48 +1,56 @@
 import "./style.scss";
 
+import { RegisterComponents } from "@Core/RegisterComponents";
+import { Block } from "@Core";
 import * as Pages from "@Pages";
-import { RegisterPartials } from "@utils/RegisterPartials";
-import contacts from "@services/stubs/ContactsListStub";
 
-RegisterPartials();
+RegisterComponents();
 
-const pagesWithContext: Record<string, [(context?: Record<string, unknown>) => string, object]> = {
-  login: [Pages.LoginPage, {}],
-  main: [Pages.MainLayout, {
-    contacts,
-  }],
-  profile: [Pages.ProfilePage, {
-    name: "Ivan",
-    edit: false,
-  }],
-  editProfile: [Pages.ProfilePage, {
-    name: "Ivan",
-    edit: true,
-  }],
-  signin: [Pages.SigninPage, {}],
-  error: [Pages.ErrorPage, {
-    code: "500",
-    description: "Мы уже фиксим",
-  }],
-  notFound: [Pages.ErrorPage, {
-    code: "404",
-    description: "Не туда попали",
-  }],
+const blockPages: Partial<Record<string, typeof Block<Record<string, unknown>>>> = {
+  SigninPage: Pages.SigninPage,
+  LoginPage: Pages.LoginPage,
+  MainLayout: Pages.MainLayout,
+  ProfilePage: Pages.ProfilePage,
+  EditProfilePage: Pages.ProfilePage,
+  ErrorPage: Pages.ErrorPage,
+  NotFoundPage: Pages.ErrorPage,
 };
 
-function navigate(page: string) {
-  const [source, context] = pagesWithContext[page];
-  const container = document.getElementById("root")!;
-  container.innerHTML = source(context as Record<string, unknown>);
+function navigate(page: keyof typeof blockPages) {
+  const app = document.getElementById("root")!;
+
+  const BlockComponent = blockPages[page];
+
+  let component;
+  switch (page) {
+  case "EditProfilePage":
+    component = new BlockComponent!({ edit: true });
+    break;
+
+  case "ErrorPage":
+    component = new BlockComponent!({ code: "500", description: "Мы уже фиксим" });
+    break;
+
+  case "NotFoundPage":
+    component = new BlockComponent!({ code: "404", description: "Не туда попали" });
+    break;
+
+  default:
+    component = new BlockComponent!();
+    break;
+  }
+
+  app.innerHTML = "";
+  app?.append(component.getContent()!);
 }
 
-navigate("signin");
+navigate("SigninPage");
 
 document.addEventListener("click", e => {
   const target = e.target as HTMLButtonElement;
   const page = target.getAttribute("linkTo");
   if (page) {
-    navigate(page);
+    navigate(page as keyof typeof blockPages);
 
     e.preventDefault();
     e.stopImmediatePropagation();
