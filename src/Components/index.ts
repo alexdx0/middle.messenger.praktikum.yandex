@@ -10,3 +10,5 @@ export { FormButton } from "./FormButton";
 export { ProfileField } from "./ProfileField";
 export { SimpleInput } from "./SimpleInput";
 export { InputValidation } from "./InputValidation";
+export { ArrowButton } from "./ArrowButton";
+export { ThreeDotsButton } from "./ThreeDotsButton";

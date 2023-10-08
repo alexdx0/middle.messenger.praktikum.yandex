@@ -2,6 +2,7 @@ import { Block } from "@Core";
 import { validateFns } from "@utils/validateFns";
 import { formDataLogger } from "@utils/formDataLogger";
 import { FormInput } from "@components/FormInput";
+import { Router } from "@app/appRouting";
 
 import ProfilePageHbs from "./ProfilePage.hbs";
 
@@ -15,7 +16,12 @@ export class ProfilePage extends Block<IProfilePageProps> {
     super({
       ...props,
       validateFns,
-      onSave: (e: MouseEvent) => formDataLogger(this.refs as Record<string, FormInput>, e),
+      onSave: (e: MouseEvent) => {
+        formDataLogger(this.refs as Record<string, FormInput>, e);
+        Router.go("/messenger");
+      },
+      onBack: () => Router.go("/messenger"),
+      onEditProfile: () => Router.go("/settings", { edit: true }),
     });
   }
 

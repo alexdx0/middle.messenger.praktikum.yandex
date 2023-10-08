@@ -1,3 +1,4 @@
+import { Router } from "@app/appRouting";
 import { Block } from "@Core";
 import { validateFns } from "@utils/validateFns";
 import { FormInput } from "@components/FormInput";
@@ -9,7 +10,10 @@ export class LoginPage extends Block {
   constructor() {
     super({
       validateFns,
-      onLogin: (e: MouseEvent) => formDataLogger(this.refs as Record<string, FormInput>, e),
+      onLogin: (e: MouseEvent) => {
+        formDataLogger(this.refs as Record<string, FormInput>, e);
+        Router.go("/messenger");
+      },
     });
   }
 

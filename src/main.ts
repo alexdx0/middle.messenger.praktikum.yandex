@@ -1,58 +1,66 @@
 import "./style.scss";
 
 import { RegisterComponents } from "@Core/RegisterComponents";
-import { Block } from "@Core";
-import * as Pages from "@Pages";
+
+import { Router } from "./appRouting";
 
 RegisterComponents();
+Router.start();
 
-const blockPages: Partial<Record<string, typeof Block<Record<string, unknown>>>> = {
-  SigninPage: Pages.SigninPage,
-  LoginPage: Pages.LoginPage,
-  MainLayout: Pages.MainLayout,
-  ProfilePage: Pages.ProfilePage,
-  EditProfilePage: Pages.ProfilePage,
-  ErrorPage: Pages.ErrorPage,
-  NotFoundPage: Pages.ErrorPage,
-};
+// const blockPages: Partial<Record<string, typeof Block<Record<string, unknown>>>> = {
+//   SigninPage: Pages.SigninPage,
+//   LoginPage: Pages.LoginPage,
+//   MainLayout: Pages.MainLayout,
+//   ProfilePage: Pages.ProfilePage,
+//   EditProfilePage: Pages.ProfilePage,
+//   ErrorPage: Pages.ErrorPage,
+//   NotFoundPage: Pages.ErrorPage,
+// };
 
-function navigate(page: keyof typeof blockPages) {
-  const app = document.getElementById("root")!;
+// function navigate(page: keyof typeof blockPages) {
+//   const app = document.getElementById("root")!;
 
-  const BlockComponent = blockPages[page];
+//   const BlockComponent = blockPages[page];
 
-  let component;
-  switch (page) {
-  case "EditProfilePage":
-    component = new BlockComponent!({ edit: true });
-    break;
+//   let component;
+//   switch (page) {
+//   case "EditProfilePage":
+//     component = new BlockComponent!({ edit: true });
+//     break;
 
-  case "ErrorPage":
-    component = new BlockComponent!({ code: "500", description: "Мы уже фиксим" });
-    break;
+//   case "ErrorPage":
+//     component = new BlockComponent!({ code: "500", description: "Мы уже фиксим" });
+//     break;
 
-  case "NotFoundPage":
-    component = new BlockComponent!({ code: "404", description: "Не туда попали" });
-    break;
+//   case "NotFoundPage":
+//     component = new BlockComponent!({ code: "404", description: "Не туда попали" });
+//     break;
 
-  default:
-    component = new BlockComponent!();
-    break;
-  }
+//   default:
+//     component = new BlockComponent!();
+//     break;
+//   }
 
-  app.innerHTML = "";
-  app?.append(component.getContent()!);
-}
+//   app.innerHTML = "";
+//   app?.append(component.getContent()!);
+// }
 
-navigate("SigninPage");
+// navigate("SigninPage");
 
-document.addEventListener("click", e => {
-  const target = e.target as HTMLButtonElement;
-  const page = target.getAttribute("linkTo");
-  if (page) {
-    navigate(page as keyof typeof blockPages);
+// document.addEventListener("click", e => {
+//   const target = e.target as HTMLButtonElement;
+//   const page = target.getAttribute("linkTo");
+//   if (page) {
+//     navigate(page as keyof typeof blockPages);
 
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-});
+//     e.preventDefault();
+//     e.stopImmediatePropagation();
+//   }
+// });
+
+// const SigninRoute = new Route("/signin", Pages.SigninPage as typeof Block, { rootQuery: "root" });
+// SigninRoute.render();
+
+// setTimeout(() => {
+//   Router.go("/messenger");
+// }, 2000);

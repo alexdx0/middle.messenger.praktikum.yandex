@@ -11,26 +11,33 @@ interface HttpMethodOptions {
   data: Record<string, unknown>;
   timeout: number;
 }
-type HttpMethod = (url: string, options: HttpMethodOptions) => Promise<unknown>;
+type HttpMethod = (url: string, options?: HttpMethodOptions) => Promise<unknown>;
 
 function queryStringify(data: Record<string, unknown>) {
   return "?" + Object.keys(data).map((key) => key + "=" + data[key]).join("&");
 }
 
-export class HTTPTransport {
-  get: HttpMethod = (url, options) => {
+const defaultHttpOptions: HttpMethodOptions = {
+  headers: {},
+  data: {},
+  method: HttpMethodsEnum.GET,
+  timeout: 10000,
+};
+
+class HTTPTransport {
+  get: HttpMethod = (url: string, options: HttpMethodOptions = defaultHttpOptions) => {
     return this.request(url, { ...options, method: HttpMethodsEnum.GET }, options.timeout);
   };
 
-  post: HttpMethod = (url, options) => {
+  post: HttpMethod = (url, options: HttpMethodOptions = defaultHttpOptions) => {
     return this.request(url, { ...options, method: HttpMethodsEnum.POST }, options.timeout);
   };
 
-  put: HttpMethod = (url, options) => {
+  put: HttpMethod = (url: string, options: HttpMethodOptions = defaultHttpOptions) => {
     return this.request(url, { ...options, method: HttpMethodsEnum.PUT }, options.timeout);
   };
 
-  delete: HttpMethod = (url, options) => {
+  delete: HttpMethod = (url: string, options: HttpMethodOptions = defaultHttpOptions) => {
     return this.request(url, { ...options, method: HttpMethodsEnum.DELETE }, options.timeout);
   };
 
@@ -44,6 +51,7 @@ export class HTTPTransport {
       }
 
       const xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
       const isGet = method === HttpMethodsEnum.GET;
 
       xhr.open(
@@ -75,3 +83,6 @@ export class HTTPTransport {
     });
   };
 }
+
+const instance = new HTTPTransport();
+export default instance;

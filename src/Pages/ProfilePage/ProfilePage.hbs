@@ -1,6 +1,6 @@
 <main class="profile-page">
   <div class="profile-page__backward">
-    <div class="arrow-button_left" linkTo="MainLayout"></div>
+    {{{ ArrowButton direction="left" onClick=onBack }}}
   </div>
   <div class="profile-page__content">
     <div class="profile-avatar"></div>
@@ -11,14 +11,13 @@
       {{{ ProfileField label="Имя" name="first_name" ref="first_name" value="Ivan" edit=edit validateFn=validateFns.name }}}
       {{{ ProfileField label="Фамилия" name="second_name" ref="second_name" value="Ivanov" edit=edit validateFn=validateFns.name }}}
       {{{ ProfileField label="Имя в чате" name="display_name" ref="display_name" value="IVAN" edit=edit }}}
-      {{{ ProfileField label="Телефон" name="phone" ref="phone" type="tel" value="+76665554433" edit=edit
-      validateFn=validateFns.phone }}}
+      {{{ ProfileField label="Телефон" name="phone" ref="phone" type="tel" value="+76665554433" edit=edit validateFn=validateFns.phone }}}
       <br>
       <div class="profile-form__actions">
         {{#if edit}}
-        {{{ FormButton title="Сохранить" linkTo="MainLayout" onClick=onSave}}}
+        {{{ FormButton title="Сохранить" onClick=onSave }}}
         {{else}}
-        {{{ FormButton title="Изменить данные" transparent=true linkTo="EditProfilePage" }}}
+        {{{ FormButton title="Изменить данные" transparent=true onClick=onEditProfile }}}
         {{{ FormButton title="Изменить пароль" transparent=true }}}
         {{{ FormButton title="Выйти" transparent=true }}}
         {{/if}}
