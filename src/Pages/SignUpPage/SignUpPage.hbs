@@ -1,6 +1,6 @@
-<main class="signin-page">
-  <form class="signin-form" action="">
-    <span class="signin-form__title">Регистрация</span>
+<main class="signup-page">
+  <form class="signup-form" action="">
+    <span class="signup-form__title">Регистрация</span>
     {{{ FormInput title="Почта" value="middle@ya.ru" name="email" ref="email" validateFn=validateFns.email }}}
     {{{ FormInput title="Логин" value="IVAN" name="login" ref="login" validateFn=validateFns.login }}}
     {{{ FormInput title="Имя" value="Ivan" name="first_name" ref="first_name" validateFn=validateFns.name }}}
@@ -9,7 +9,7 @@
     {{{ FormInput title="Пароль" type="text" name="password" value="1234567A" ref="password" validateFn=validateFns.password }}}
     {{{ FormInput title="Пароль (еще раз)" type="text" name="password2" value="1234567A" ref="password2" validateFn=validateFns.password }}}
     <br>
-    {{{ FormButton title="Зарегистрироваться" onClick=onSignin}}}
-    {{{ FormButton title="Войти" transparent=true}}}
+    {{{ FormButton title="Зарегистрироваться" onClick=signUpHandler}}}
+    {{{ FormButton title="Войти" transparent=true onClick=lognHandler}}}
   </form>
 </main>

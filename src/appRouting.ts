@@ -5,7 +5,7 @@ type BlockType = typeof Block;
 
 const appRoutes: Record<string, BlockType> = {
   "/": Pages.LoginPage as BlockType,
-  "/sign-up": Pages.SigninPage as BlockType,
+  "/sign-up": Pages.SignUpPage as BlockType,
   "/settings": Pages.ProfilePage as BlockType,
   "/messenger": Pages.MainLayout as BlockType,
   "/error": Pages.ErrorPage as BlockType,

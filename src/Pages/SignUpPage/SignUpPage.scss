@@ -1,6 +1,6 @@
 @use '@styles/variables' as v;
 
-.signin-page {
+.signup-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,7 +8,7 @@
   height: 100%;
   width: 100%;
 
-  .signin-form {
+  .signup-form {
     display: flex;
     flex-direction: column;
     row-gap: 1rem;

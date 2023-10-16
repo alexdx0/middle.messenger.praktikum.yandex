@@ -1,5 +1,6 @@
 import { FormInput } from "@components/FormInput";
 
+// TODO remove
 export const formDataLogger = (refs: Record<string, FormInput>, e: MouseEvent) => {
   e.preventDefault();
 

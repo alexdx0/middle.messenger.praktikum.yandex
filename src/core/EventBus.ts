@@ -22,10 +22,12 @@ export default class EventBus<E extends string = string, M extends { [K in E]: u
   }
 
   emit(event: E, ...args: M[E]) {
-    if (!this.listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
-    }
+    // if (!this.listeners[event]) {
+    //   throw new Error(`Нет обработчиков события: <${event}>`);
+    // }
 
-    this.listeners[event]!.forEach(listener => listener(...args));
+    if (this.listeners[event] && this.listeners[event]!.length > 0) {
+      this.listeners[event]!.forEach(listener => listener(...args));
+    }
   }
 }

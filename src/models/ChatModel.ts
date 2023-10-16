@@ -7,7 +7,7 @@ export interface ChatModel {
   id: number;
   title: string;
   avatar: string;
-  unread_count: number;
   created_by: number;
+  unread_count: number;
   last_message: MessageModel;
 }

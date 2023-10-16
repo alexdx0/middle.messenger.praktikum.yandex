@@ -17,14 +17,12 @@
     "types": [
       "vite/client"
     ],
-
     "baseUrl": ".",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -35,7 +33,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "types"
+    "src/types"
   ],
   "exclude": [
     "node_modules",

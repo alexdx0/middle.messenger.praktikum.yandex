@@ -6,7 +6,6 @@ import { Router } from "./appRouting";
 
 RegisterComponents();
 Router.start();
-
 // const blockPages: Partial<Record<string, typeof Block<Record<string, unknown>>>> = {
 //   SigninPage: Pages.SigninPage,
 //   LoginPage: Pages.LoginPage,

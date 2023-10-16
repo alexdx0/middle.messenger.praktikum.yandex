@@ -3,7 +3,11 @@ import { v4 as makeUUID } from "uuid";
 
 import EventBus, { Listener } from "./EventBus";
 
-type BlockPropsType = Record<string, unknown | Block<BlockPropsType>> &
+export type RefType = {
+  [key: string]: Element | Block<BlockPropsType>
+}
+
+export type BlockPropsType = Record<string, unknown | Block<BlockPropsType>> &
 { events?: Record<string, () => void> } & object;
 
 type RootChildren = {
@@ -14,7 +18,7 @@ type RootChildren = {
 type ContextAndStubsType = BlockPropsType & { "__refs": BlockPropsType } & { "__children"?: RootChildren[] };
 
 // Нельзя создавать экземпляр данного класса
-export class Block<Tprops extends BlockPropsType = BlockPropsType> {
+export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends RefType = RefType> {
   static EVENTS = {
     INIT: "init",
     /** ComponentDidMount */
@@ -23,11 +27,13 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType> {
     FLOW_CDU: "flow:component-did-update",
     /** Render */
     FLOW_RENDER: "flow:render",
+    /** ComponentWillUnmount */
+    FLOW_CWU: "flow:component-will-unmount",
   };
 
   public id = makeUUID();
   protected props: Tprops;
-  protected refs: Record<string, Block> = {};
+  protected refs: Trefs = {} as Trefs;
   public children: BlockPropsType;
   private eventBus: () => EventBus;
   protected _element: HTMLElement | null = null;
@@ -84,6 +90,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType> {
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this) as Listener<unknown[]>);
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -118,6 +125,12 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType> {
   protected componentShouldUpdate(oldProps: Record<string, unknown>, _newProps: Record<string, unknown>) {
     return oldProps !== _newProps;
   }
+
+  _componentWillUnmount() {
+    this.componentWillUnmount();
+  }
+
+  componentWillUnmount() {}
 
   setProps = (nextProps: Record<string, unknown>) => {
     if (!nextProps) {
@@ -167,6 +180,17 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType> {
   }
 
   getContent() {
+    // Хак, чтобы вызвать CDM только после добавления в DOM
+    if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+      setTimeout(() => {
+        if (
+          this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
+        ) {
+          this.dispatchComponentDidMount();
+        }
+      }, 100);
+    }
+
     return this.element;
   }
 

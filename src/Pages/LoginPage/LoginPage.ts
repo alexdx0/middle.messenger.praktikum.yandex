@@ -2,17 +2,37 @@ import { Router } from "@app/appRouting";
 import { Block } from "@Core";
 import { validateFns } from "@utils/validateFns";
 import { FormInput } from "@components/FormInput";
-import { formDataLogger } from "@utils/formDataLogger";
+import { AuthController } from "@app/Controllers/AuthController";
+import { getRefsInputsValues } from "@utils/getRefsInputsValues";
+import { connect } from "@Core/connect";
 
 import LoginPageHbs from "./LoginPage.hbs";
 
-export class LoginPage extends Block {
+type LoginPageInputs = {
+  login: string;
+  password: string;
+}
+
+/** Страница входа в учетную запись */
+class LoginPage extends Block {
   constructor() {
     super({
       validateFns,
-      onLogin: (e: MouseEvent) => {
-        formDataLogger(this.refs as Record<string, FormInput>, e);
-        Router.go("/messenger");
+      noAccountHandler: () => {
+        // AuthController.logout();
+        Router.go("/sign-up");
+      },
+      loginHandler: () => {
+        // formDataLogger(this.refs as Record<string, FormInput>, e);
+        const formValues = getRefsInputsValues(this.refs as Record<keyof LoginPageInputs, FormInput>);
+        // console.log(formValues);
+        if (Object.values(formValues).some(x => !x)) {
+          return null;
+        }
+        AuthController.signIn(formValues.login, formValues.password)
+          .then(() => Router.go("/messenger"));
+        // AuthController.getUserInfo();
+        // Router.go("/messenger");
       },
     });
   }
@@ -21,3 +41,6 @@ export class LoginPage extends Block {
     return LoginPageHbs;
   }
 }
+
+const instance = connect(({ chats, user }) => ({ chats, user }))(LoginPage);
+export { instance as LoginPage };
