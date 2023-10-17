@@ -1,11 +1,13 @@
-import "./style.scss";
-
 import { RegisterComponents } from "@Core/RegisterComponents";
 
 import { Router } from "./appRouting";
+import "./style.scss";
 
 RegisterComponents();
 Router.start();
+
+// Handlebars.registerPartial("ContextPopup", ContextPopup as unknown as Template<unknown>);
+
 // const blockPages: Partial<Record<string, typeof Block<Record<string, unknown>>>> = {
 //   SigninPage: Pages.SigninPage,
 //   LoginPage: Pages.LoginPage,

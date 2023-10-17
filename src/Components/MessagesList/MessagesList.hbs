@@ -9,7 +9,8 @@
       </div>
     </div>
     <div class="more-button">
-      {{{ ThreeDotsButton onClick=onMenuClick}}}
+      {{{ ThreeDotsButton onClick=onMenuClick }}}
+      {{{ ChatContextPopup }}}
     </div>
   </header>
   <main class="messages-list__content">
@@ -17,9 +18,12 @@
     {{{ MessageCard whose="his" text=this.content }}}
     {{/each}}
   </main>
+  <div>
+  </div>
   <footer class="messages-list__footer">
     <div class="attach-button">
       <div class="icon-clip"></div>
+      {{{ AttachPopup }}}
     </div>
     {{{ MessageInput }}}
     {{{ ArrowButton direction="right" }}}

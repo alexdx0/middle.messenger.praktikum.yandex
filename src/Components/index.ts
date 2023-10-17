@@ -12,3 +12,5 @@ export { SimpleInput } from "./SimpleInput";
 export { InputValidation } from "./InputValidation";
 export { ArrowButton } from "./ArrowButton";
 export { ThreeDotsButton } from "./ThreeDotsButton";
+export { ChatContextPopup } from "./PopUps/ChatContextPopup";
+export { AttachPopup } from "./PopUps/AttachPopup";
