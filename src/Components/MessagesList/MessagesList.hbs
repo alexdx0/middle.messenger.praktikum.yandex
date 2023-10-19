@@ -10,7 +10,9 @@
     </div>
     <div class="more-button">
       {{{ ThreeDotsButton onClick=onMenuClick }}}
-      {{{ ChatContextPopup }}}
+      {{!-- {{#if isContextPopupVisible}} --}}
+      {{{ ChatContextPopup ref="contextPopup" }}}
+      {{!-- {{/if}} --}}
     </div>
   </header>
   <main class="messages-list__content">

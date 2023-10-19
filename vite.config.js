@@ -24,6 +24,9 @@ export default defineConfig({
   },
   plugins: [
     checker({
+      overlay: {
+        initialIsOpen: false,
+      },
       typescript: true,
       eslint: {
         lintCommand: "eslint \"./src/**/*.{ts,js}\"",

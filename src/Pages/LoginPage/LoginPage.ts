@@ -37,6 +37,14 @@ class LoginPage extends Block {
     });
   }
 
+  componentDidMount(): void {
+    console.log("loginPage CDM");
+  }
+
+  componentWillUnmount(): void {
+    console.log("loginPage CWU");
+  }
+
   protected render() {
     return LoginPageHbs;
   }

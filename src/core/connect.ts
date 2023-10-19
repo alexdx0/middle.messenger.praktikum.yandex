@@ -32,7 +32,7 @@ export function connect(mapStateToProps: (state: AppStoreModel) => Partial<AppSt
       }
 
       componentWillUnmount() {
-        super.componentWillUnmount();
+        // super.componentWillUnmount(this.element);
         window.appStore.off(StoreEvents.Updated, this.onChangeStoreCallback);
       }
     };

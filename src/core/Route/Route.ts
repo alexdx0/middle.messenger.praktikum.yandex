@@ -4,7 +4,7 @@ function isEqual(lhs: unknown, rhs: unknown) {
   return lhs === rhs;
 }
 
-function render(query: string, block: Block) {
+function BlockRender(query: string, block: Block) {
   const root = document.querySelector(query);
   if (root) {
     root.innerHTML = "";
@@ -38,20 +38,21 @@ export class Route {
 
   navigate(pathname: string) {
     if (this.match(pathname) && this._block !== null) {
-      render(this._props.rootQuery, this._block);
+      BlockRender(this._props.rootQuery, this._block);
       this._block.show();
     }
   }
 
   leave() {
     this._block?.hide();
+    // this._block?.dispatchComponentWillUnmount(this._block.element!);
   }
 
   render(routeState: Record<string, unknown> = {}) {
     if (!this._block || routeState !== this._routeState) {
       this._routeState = routeState;
       this._block = new this._blockClass(routeState);
-      render(this._props.rootQuery, this._block);
+      BlockRender(this._props.rootQuery, this._block);
       return;
     }
 

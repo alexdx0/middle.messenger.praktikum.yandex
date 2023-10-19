@@ -1,9 +1,9 @@
 import { Block } from "@Core";
+import { Indexed } from "@app/types/Indexed";
 
 import ProfileFieldHbs from "./ProfileField.hbs";
 
-interface IProfileFieldProps {
-  [key: string]: unknown;
+interface IProfileFieldProps extends Indexed {
   validateFn: (value: string) => boolean;
 }
 export class ProfileField extends Block<IProfileFieldProps> {

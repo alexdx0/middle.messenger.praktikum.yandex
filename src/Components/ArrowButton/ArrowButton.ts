@@ -16,6 +16,14 @@ export class ArrowButton extends Block<IArrowButtonProps> {
     };
   }
 
+  componentDidMount(): void {
+    console.log("arrowButton CDM");
+  }
+
+  componentWillUnmount(): void {
+    console.log("arrowButton CWU");
+  }
+
   protected render() {
     return ArrowButtonHbs;
   }

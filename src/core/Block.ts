@@ -4,7 +4,7 @@ import { v4 as makeUUID } from "uuid";
 import EventBus, { Listener } from "./EventBus";
 
 export type RefType = {
-  [key: string]: Element | Block<BlockPropsType>
+  [key: string]: Block<BlockPropsType>
 }
 
 export type BlockPropsType = Record<string, unknown | Block<BlockPropsType>> &
@@ -34,16 +34,16 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
   public id = makeUUID();
   protected props: Tprops;
   protected refs: Trefs = {} as Trefs;
-  public children: BlockPropsType;
+  public children: Block[] = [];
   private eventBus: () => EventBus;
   protected _element: HTMLElement | null = null;
 
   constructor(propsWithChildren: Tprops = {} as Tprops) {
     const eventBus = new EventBus();
 
-    const { props, children } = this._getChildrenAndProps(propsWithChildren);
+    const { props } = this._getChildrenAndProps(propsWithChildren);
 
-    this.children = children as BlockPropsType;
+    // this.children = children as BlockPropsType;
     this.props = this._makePropsProxy(props) as Tprops;
 
     this.eventBus = () => eventBus;
@@ -65,6 +65,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
       }
     });
 
+    // TODO eliminate children
     return { props, children };
   }
 
@@ -94,6 +95,35 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
+  /** Приватный метод, следящий за удалением экземпляра блока (узла DOM) и запускающий CWU */
+  private _makeUnmountObservable(callback: (block: HTMLElement) => void) {
+    const parent = this._element?.parentNode;
+    if (!parent) { throw new Error("Block instance has no parents") }
+
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => mutation.removedNodes.forEach(node => {
+        if (node === this._element) {
+          observer.disconnect();
+          callback(this._element);
+        }
+      }));
+    });
+    // const observer = new MutationObserver(mutations => {
+    //   for (const mutation of mutations) {
+    //     for (const el of mutation.removedNodes) {
+    //       console.log("parent", parent);
+    //       console.log("this._element", this._element);
+    //       console.log("removed node", el);
+    //       if (el === this._element) {
+    //         observer.disconnect();
+    //         callback(this._element);
+    //       }
+    //     }
+    //   }
+    // });
+    observer.observe(parent, { childList: true });
+  }
+
   private _init() {
     this.init();
 
@@ -105,6 +135,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
   _componentDidMount() {
     this.componentDidMount();
+    this._makeUnmountObservable((element) => this.dispatchComponentWillUnmount(element));
   }
 
   componentDidMount() {
@@ -112,8 +143,13 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    // Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
+  }
 
-    Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
+  public dispatchComponentWillUnmount(element: HTMLElement) {
+    // console.log("block CWU", element);
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU);
+    Object.values(this.children).forEach(child => (child as Block).dispatchComponentWillUnmount(element));
   }
 
   private _componentDidUpdate(oldProps: BlockPropsType, newProps: BlockPropsType) {
@@ -149,6 +185,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     const newElement = fragment.firstElementChild as HTMLElement;
 
     this._removeEvents();
+    // console.log(this.children);
 
     if (this._element) {
       this._element.replaceWith(newElement);
@@ -164,9 +201,14 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
     const html = template(contextAndStubs);
 
+    // TODO попробовать переделать на фрагмент
     const temp = document.createElement("template");
 
     temp.innerHTML = html;
+
+    if (contextAndStubs.__children?.length) {
+      this.children = contextAndStubs.__children.map(x => x.component);
+    }
 
     contextAndStubs.__children?.forEach(({ embed }: Pick<RootChildren, "embed">) => {
       embed(temp.content);
@@ -187,6 +229,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
           this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
         ) {
           this.dispatchComponentDidMount();
+          // this.eventBus().emit(Block.EVENTS.FLOW_CDM);
         }
       }, 100);
     }
@@ -214,16 +257,23 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     });
   };
 
-  _createDocumentElement(tagName: string) {
-    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-    return document.createElement(tagName);
-  }
+  // _createDocumentElement(tagName: string) {
+  //   // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
+  //   return document.createElement(tagName);
+  // }
 
   show() {
-    this.getContent()!.style.display = "block";
+    this.getContent()!.style.display = "revert-layer";
   }
 
   hide() {
     this.getContent()!.style.display = "none";
+  }
+
+  remove() {
+    const parent = this.element!.parentNode;
+    // this.dispatchComponentWillUnmount(this.element!);
+    // Object.values(this.children).forEach(child => (child as Block).dispatchComponentWillUnmount(this.element!));
+    parent?.removeChild(this.element!);
   }
 }
