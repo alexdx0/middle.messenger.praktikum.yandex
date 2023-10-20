@@ -4,26 +4,51 @@ import { Block } from "@Core";
 
 import MessagesListHbs from "./MessagesList.hbs";
 
+const UseClickOutside = (element: HTMLElement | null, onClickOutside: () => void) => {
+  const handler = (e: MouseEvent) => {
+    if (!element?.contains(e.target as HTMLElement) && !(e.target as HTMLElement).contains(element)) {
+      onClickOutside();
+    }
+  };
+  const disposer = () => document.removeEventListener("click", handler);
+  document.addEventListener("click", handler);
+  return disposer;
+};
+
 export class MessagesList extends Block {
-  private _isContextPopupVisible: boolean = true;
+  private _isContextPopupVisible: boolean = false;
+  private _clickOutsideDisposer: (() => void) | null = null;
 
   constructor() {
     super({
-      onMenuClick: () => {
+      onMenuClick: (e: MouseEvent) => {
+        e.stopPropagation();
         // Router.go("/error", { code: "500", description: "Мы уже фиксим" });
-        this._isContextPopupVisible = !this._isContextPopupVisible;
         if (this._isContextPopupVisible) {
-          this.refs.contextPopup.remove();
+          this.refs.contextPopup.hide();
         } else {
           this.refs.contextPopup.show();
         }
-        // this.props.isContextPopupVisible = this._isContextPopupVisible;
-        // this.setProps({ isContextPopupVisible: this._isContextPopupVisible });
+        this._isContextPopupVisible = !this._isContextPopupVisible;
       },
     });
     this.refs.contextPopup.hide();
+
     // this.props.messages = [chats[1].last_message];
     // this.props.title = chats[1].title;
+  }
+
+  componentDidMount(): void {
+    this._clickOutsideDisposer = UseClickOutside(this.refs.contextPopup.element, () => {
+      console.log("click outside");
+      // this.refs.contextPopup.hide();
+      this.refs.contextPopup.hide();
+      this._isContextPopupVisible = false;
+    });
+  }
+
+  componentWillUnmount(): void {
+    this._clickOutsideDisposer!();
   }
 
   protected render() {

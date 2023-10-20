@@ -35,6 +35,10 @@ class LoginPage extends Block {
         // Router.go("/messenger");
       },
     });
+
+    // setTimeout(() => {
+    //   Router.go("/sign-up");
+    // }, 2000);
   }
 
   componentDidMount(): void {

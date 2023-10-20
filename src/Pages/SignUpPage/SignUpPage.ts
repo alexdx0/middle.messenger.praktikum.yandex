@@ -32,10 +32,15 @@ export class SignUpPage extends Block {
     });
   }
 
+  componentDidMount(): void {
+    console.log("SignUpPage CDM");
+  }
+
+  componentWillUnmount(): void {
+    console.log("SignUpPage CWU");
+  }
+
   protected render() {
-    // setTimeout(() => {
-    //   ModalService.close();
-    // }, 2000);
     return SignUpPageHbs;
   }
 }

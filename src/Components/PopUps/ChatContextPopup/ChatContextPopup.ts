@@ -29,9 +29,9 @@ export class ChatContextPopup extends Block {
     // }, 2000);
   }
 
-  // componentDidMount(): void {
-  //   console.log("component did mount");
-  // }
+  componentDidMount(): void {
+    console.log("popup CDM");
+  }
 
   // componentWillUnmount(): void {
   //   console.log("dispose");

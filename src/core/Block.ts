@@ -133,40 +133,48 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
   protected init() {
   }
 
-  _componentDidMount() {
-    this.componentDidMount();
-    this._makeUnmountObservable((element) => this.dispatchComponentWillUnmount(element));
-  }
-
-  componentDidMount() {
-  }
-
+  // #region CDM
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
     // Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
   }
 
-  public dispatchComponentWillUnmount(element: HTMLElement) {
+  _componentDidMount() {
+    this.componentDidMount();
+    // this._makeUnmountObservable(() => this.dispatchComponentWillUnmount());
+  }
+
+  componentDidMount() {
+  }
+  // #endregion CDM
+
+  // #region CWU
+  public dispatchComponentWillUnmount() {
     // console.log("block CWU", element);
     this.eventBus().emit(Block.EVENTS.FLOW_CWU);
-    Object.values(this.children).forEach(child => (child as Block).dispatchComponentWillUnmount(element));
-  }
-
-  private _componentDidUpdate(oldProps: BlockPropsType, newProps: BlockPropsType) {
-    if (this.componentShouldUpdate(oldProps, newProps)) {
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-    }
-  }
-
-  protected componentShouldUpdate(oldProps: Record<string, unknown>, _newProps: Record<string, unknown>) {
-    return oldProps !== _newProps;
+    Object.values(this.children).forEach(child => (child as Block).dispatchComponentWillUnmount());
   }
 
   _componentWillUnmount() {
     this.componentWillUnmount();
   }
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+
+  }
+  // #endregion CWU
+
+  // #region CDU
+  private _componentDidUpdate(oldProps: BlockPropsType, newProps: BlockPropsType) {
+    if (this.componentShouldUpdate(oldProps, newProps)) {
+      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    }
+  }
+  // #endregion CDU
+
+  protected componentShouldUpdate(oldProps: Record<string, unknown>, _newProps: Record<string, unknown>) {
+    return oldProps !== _newProps;
+  }
 
   setProps = (nextProps: Record<string, unknown>) => {
     if (!nextProps) {
@@ -271,8 +279,10 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
   }
 
   remove() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU);
+    // this.dispatchComponentWillUnmount();
     const parent = this.element!.parentNode;
-    // this.dispatchComponentWillUnmount(this.element!);
+    // this.dispatchComponentWillUnmount();
     // Object.values(this.children).forEach(child => (child as Block).dispatchComponentWillUnmount(this.element!));
     parent?.removeChild(this.element!);
   }

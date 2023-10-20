@@ -45,7 +45,7 @@ export class Route {
 
   leave() {
     this._block?.hide();
-    // this._block?.dispatchComponentWillUnmount(this._block.element!);
+    this._block?.dispatchComponentWillUnmount();
   }
 
   render(routeState: Record<string, unknown> = {}) {
