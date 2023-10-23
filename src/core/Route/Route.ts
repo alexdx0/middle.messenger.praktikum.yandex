@@ -44,7 +44,8 @@ export class Route {
   }
 
   leave() {
-    this._block?.hide();
+    // TODO uncomment
+    // this._block?.hide();
     this._block?.dispatchComponentWillUnmount();
   }
 

@@ -11,7 +11,10 @@ export class Link extends Block<ILinkProps> {
   constructor(props: ILinkProps) {
     super(props);
     this.props.events = {
-      click: () => Router.go(this.props.to),
+      click: (e: MouseEvent) => {
+        e.stopPropagation();
+        Router.go(this.props.to);
+      },
     };
   }
 

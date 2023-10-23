@@ -10,7 +10,9 @@ export const UseClickOutside = (element: HTMLElement | null, onClickOutside: () 
       onClickOutside();
     }
   };
-  const disposer = () => document.removeEventListener("click", handler);
+  function disposer() {
+    document.removeEventListener("click", handler);
+  }
   document.addEventListener("click", handler);
   return disposer;
 };

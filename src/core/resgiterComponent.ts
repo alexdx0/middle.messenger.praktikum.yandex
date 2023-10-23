@@ -18,14 +18,14 @@ export function registerComponent(name: string, Component: typeof Block) {
 
     (data.root.__children = data.root.__children || []).push({
       component,
-      embed(fragment: DocumentFragment) {
+      embed(fragment: DocumentFragment, isRerender: boolean) {
         const stub = fragment.querySelector(`[${dataAttribute}]`);
 
         if (!stub) {
           return;
         }
 
-        const componentContent = component.getContent();
+        const componentContent = component.getContent(isRerender);
 
         componentContent?.append(...Array.from(stub.childNodes));
 

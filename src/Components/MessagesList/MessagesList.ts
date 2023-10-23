@@ -2,6 +2,7 @@ import { Block } from "@Core";
 // import { Router } from "@app/appRouting";
 // import { ChatContextPopup } from "@components/index";
 import { UseClickOutside } from "@utils/UseClickOutside";
+import { BlockPropsType } from "@Core/Block";
 
 import MessagesListHbs from "./MessagesList.hbs";
 
@@ -32,6 +33,7 @@ export class MessagesList extends Block {
         }
         this._isAttachPopupVisible = !this._isAttachPopupVisible;
       },
+
     });
 
     this.refs.contextPopup.hide();
@@ -41,22 +43,35 @@ export class MessagesList extends Block {
     // this.props.title = chats[1].title;
   }
 
-  componentDidMount(): void {
-    console.log("MessagesList CDM");
-    this._clickOutsideDisposers.push(UseClickOutside(this.refs.contextPopup.element, () => {
-      // console.log("click outside");
-      this.refs.contextPopup.hide();
-      this._isContextPopupVisible = false;
-    }));
+  closeContextPopup = () => {
+    // console.log("click outside");
+    this.refs.contextPopup.hide();
+    this._isContextPopupVisible = false;
+  };
 
-    this._clickOutsideDisposers.push(UseClickOutside(this.refs.attachPopup.element, () => {
-      // console.log("click outside");
-      this.refs.attachPopup.hide();
-      this._isAttachPopupVisible = false;
-    }));
+  closeAttachPopup = () => {
+    // console.log("click outside");
+    this.refs.attachPopup.hide();
+    this._isAttachPopupVisible = false;
+  };
+
+  componentDidMount = () => {
+    console.log("MessagesList CDM");
+    this._clickOutsideDisposers.push(UseClickOutside(this.refs.contextPopup.element, this.closeContextPopup));
+    this._clickOutsideDisposers.push(UseClickOutside(this.refs.attachPopup.element, this.closeAttachPopup));
+
+    setTimeout(() => {
+      console.log("disposers", this._clickOutsideDisposers);
+    }, 5000);
+  };
+
+  componentDidUpdate(oldProps: BlockPropsType, newProps: BlockPropsType): void {
+    console.log("MessagesList CDU");
+    console.log(this);
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
+    console.log("MessagesList CWU");
     this._clickOutsideDisposers.forEach(disposer => {
       console.log("dispose");
       console.log(disposer);

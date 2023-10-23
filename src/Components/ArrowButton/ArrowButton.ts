@@ -10,10 +10,18 @@ interface IArrowButtonProps extends Indexed {
 
 export class ArrowButton extends Block<IArrowButtonProps> {
   constructor(props: IArrowButtonProps) {
-    super(props);
+    super(
+      {
+        ...props,
+        direction: props.direction ?? "right",
+      });
     this.props.events = {
       click: this.props.onClick,
     };
+
+    setTimeout(() => {
+      this.setProps({ direction: "left" });
+    }, 2000);
   }
 
   componentDidMount(): void {
@@ -22,6 +30,12 @@ export class ArrowButton extends Block<IArrowButtonProps> {
 
   componentWillUnmount(): void {
     console.log("ArrowButton CWU");
+  }
+
+  componentDidUpdate(prevProps, nextProps): void {
+    console.log("ArrowButton CDU");
+    // console.log("prevProps", prevProps);
+    // console.log("nextProps", nextProps);
   }
 
   protected render() {

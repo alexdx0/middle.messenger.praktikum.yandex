@@ -12,6 +12,11 @@ export class ChatContextPopup extends Block {
     // this._clickOutsideDisposer?.();
   }
 
+  componentDidUpdate(): void {
+    console.log(" popup CDU");
+    // this._clickOutsideDisposer?.();
+  }
+
   protected render() {
     return ChatContextPopupHbs;
   }

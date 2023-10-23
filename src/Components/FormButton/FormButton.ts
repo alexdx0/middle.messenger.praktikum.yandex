@@ -25,6 +25,10 @@ export class FormButton extends Block<IFormButtonProps> {
     console.log("formButton CWU");
   }
 
+  componentDidUpdate(): void {
+    console.log("formButton CDU");
+  }
+
   protected render() {
     return FormButtonHbs;
   }

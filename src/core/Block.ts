@@ -12,7 +12,7 @@ export type BlockPropsType = Record<string, unknown | Block<BlockPropsType>> &
 
 type RootChildren = {
   component: Block<BlockPropsType>,
-  embed(fragment: DocumentFragment): void;
+  embed(fragment: DocumentFragment, isMounted: boolean): void;
 }
 
 type ContextAndStubsType = BlockPropsType & { "__refs": BlockPropsType } & { "__children"?: RootChildren[] };
@@ -37,6 +37,9 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
   public children: Block[] = [];
   private eventBus: () => EventBus;
   protected _element: HTMLElement | null = null;
+  private _isMounted: boolean = false;
+  private _prevProps: Tprops = {} as Tprops;
+  private _isFirstRender: boolean = false;
 
   constructor(propsWithChildren: Tprops = {} as Tprops) {
     const eventBus = new EventBus();
@@ -133,6 +136,32 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
   protected init() {
   }
 
+  // #region CDU
+  public dispatchComponentDidUpdate() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+    // Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
+  }
+
+  // _componentDidUpdate() {
+  //   this.componentDidMount();
+  //   // this._makeUnmountObservable(() => this.dispatchComponentWillUnmount());
+  // }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  componentDidUpdate(oldProps: Tprops, newProps: Tprops) {
+  }
+
+  private _componentDidUpdate(oldProps: Tprops, newProps: Tprops) {
+    if (this.componentShouldUpdate(oldProps, newProps)) {
+      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+      if (this._isMounted) {
+        this.componentDidUpdate(oldProps, newProps);
+      }
+    }
+  }
+
+  // #endregion CDU
+
   // #region CDM
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
@@ -140,6 +169,8 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
   }
 
   _componentDidMount() {
+    this._isMounted = true;
+    // console.log("set _isMounted = true", this.element!.className);
     this.componentDidMount();
     // this._makeUnmountObservable(() => this.dispatchComponentWillUnmount());
   }
@@ -163,14 +194,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
   }
   // #endregion CWU
-
-  // #region CDU
-  private _componentDidUpdate(oldProps: BlockPropsType, newProps: BlockPropsType) {
-    if (this.componentShouldUpdate(oldProps, newProps)) {
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-    }
-  }
-  // #endregion CDU
 
   protected componentShouldUpdate(oldProps: Record<string, unknown>, _newProps: Record<string, unknown>) {
     return oldProps !== _newProps;
@@ -219,7 +242,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     }
 
     contextAndStubs.__children?.forEach(({ embed }: Pick<RootChildren, "embed">) => {
-      embed(temp.content);
+      embed(temp.content, this._isMounted);
     });
 
     return temp.content;
@@ -229,14 +252,16 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     return () => "";
   }
 
-  getContent() {
+  getContent(isMounted?: boolean) {
     // Хак, чтобы вызвать CDM только после добавления в DOM
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       setTimeout(() => {
-        if (
-          this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE
-        ) {
-          this.dispatchComponentDidMount();
+        if (this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
+          if (isMounted) {
+            this.componentDidUpdate(this._prevProps, this.props);
+          } else {
+            this.dispatchComponentDidMount();
+          }
           // this.eventBus().emit(Block.EVENTS.FLOW_CDM);
         }
       }, 100);
@@ -256,6 +281,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
         target[prop] = value;
 
+        this._prevProps = oldTarget as Tprops;
         this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
