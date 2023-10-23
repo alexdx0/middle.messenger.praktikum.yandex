@@ -17,11 +17,11 @@ export class ArrowButton extends Block<IArrowButtonProps> {
   }
 
   componentDidMount(): void {
-    console.log("arrowButton CDM");
+    console.log("ArrowButton CDM");
   }
 
   componentWillUnmount(): void {
-    console.log("arrowButton CWU");
+    console.log("ArrowButton CWU");
   }
 
   protected render() {

@@ -20,12 +20,10 @@
   <div>
   </div>
   <footer class="messages-list__footer">
-    <div class="attach-button">
-      <div class="icon-clip"></div>
-      {{{ AttachPopup }}}
-    </div>
+    {{{ AttachButton onClick=onAttachClick}}}
     {{{ MessageInput }}}
     {{{ ArrowButton direction="right" }}}
   </footer>
   {{{ ChatContextPopup ref="contextPopup" }}}
+  {{{ AttachPopup ref="attachPopup" }}}
 </div>

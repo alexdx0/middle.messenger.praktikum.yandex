@@ -1,23 +1,14 @@
 import { Block } from "@Core";
 // import { Router } from "@app/appRouting";
 // import { ChatContextPopup } from "@components/index";
+import { UseClickOutside } from "@utils/UseClickOutside";
 
 import MessagesListHbs from "./MessagesList.hbs";
 
-const UseClickOutside = (element: HTMLElement | null, onClickOutside: () => void) => {
-  const handler = (e: MouseEvent) => {
-    if (!element?.contains(e.target as HTMLElement) && !(e.target as HTMLElement).contains(element)) {
-      onClickOutside();
-    }
-  };
-  const disposer = () => document.removeEventListener("click", handler);
-  document.addEventListener("click", handler);
-  return disposer;
-};
-
 export class MessagesList extends Block {
   private _isContextPopupVisible: boolean = false;
-  private _clickOutsideDisposer: (() => void) | null = null;
+  private _isAttachPopupVisible: boolean = false;
+  private _clickOutsideDisposers: Array<() => void> = [];
 
   constructor() {
     super({
@@ -31,24 +22,46 @@ export class MessagesList extends Block {
         }
         this._isContextPopupVisible = !this._isContextPopupVisible;
       },
+      onAttachClick: (e: MouseEvent) => {
+        e.stopPropagation();
+        // Router.go("/error", { code: "500", description: "Мы уже фиксим" });
+        if (this._isAttachPopupVisible) {
+          this.refs.attachPopup.hide();
+        } else {
+          this.refs.attachPopup.show();
+        }
+        this._isAttachPopupVisible = !this._isAttachPopupVisible;
+      },
     });
+
     this.refs.contextPopup.hide();
+    this.refs.attachPopup.hide();
 
     // this.props.messages = [chats[1].last_message];
     // this.props.title = chats[1].title;
   }
 
   componentDidMount(): void {
-    this._clickOutsideDisposer = UseClickOutside(this.refs.contextPopup.element, () => {
-      console.log("click outside");
-      // this.refs.contextPopup.hide();
+    console.log("MessagesList CDM");
+    this._clickOutsideDisposers.push(UseClickOutside(this.refs.contextPopup.element, () => {
+      // console.log("click outside");
       this.refs.contextPopup.hide();
       this._isContextPopupVisible = false;
-    });
+    }));
+
+    this._clickOutsideDisposers.push(UseClickOutside(this.refs.attachPopup.element, () => {
+      // console.log("click outside");
+      this.refs.attachPopup.hide();
+      this._isAttachPopupVisible = false;
+    }));
   }
 
   componentWillUnmount(): void {
-    this._clickOutsideDisposer!();
+    this._clickOutsideDisposers.forEach(disposer => {
+      console.log("dispose");
+      console.log(disposer);
+      disposer();
+    });
   }
 
   protected render() {

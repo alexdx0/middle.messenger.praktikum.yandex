@@ -14,3 +14,4 @@ export { ArrowButton } from "./ArrowButton";
 export { ThreeDotsButton } from "./ThreeDotsButton";
 export { ChatContextPopup } from "./PopUps/ChatContextPopup";
 export { AttachPopup } from "./PopUps/AttachPopup";
+export { AttachButton } from "./AttachButton";
