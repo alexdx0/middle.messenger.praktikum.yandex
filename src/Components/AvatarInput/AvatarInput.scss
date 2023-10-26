@@ -1,0 +1,29 @@
+@use '@styles/variables' as v;
+
+%avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 130px;
+    height: 130px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.avatar-input {
+    @extend %avatar;
+
+    &__hint-container {
+        @extend %avatar;
+        text-align: center;
+        opacity: 0;
+        background-color: v.$c-gray-half;
+        color: v.$c-white;
+        font-weight: 500;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

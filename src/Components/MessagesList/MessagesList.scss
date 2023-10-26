@@ -22,6 +22,14 @@
       &__name {
         font-weight: 600;
       }
+
+      &__avatar {
+        .avatar-image {
+          height: 50px;
+          width: 50px;
+          border-radius: 50%;
+        }
+      }
     }
 
     .more-button {
@@ -45,5 +53,12 @@
     column-gap: 0.5rem;
     border-top: 1px solid #EAEAEA;
     padding: 0.5rem 0;
+  }
+
+  .welcome-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
 }

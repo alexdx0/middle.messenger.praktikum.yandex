@@ -8,7 +8,7 @@ enum HttpMethodsEnum {
 interface HttpMethodOptions {
   headers?: Record<string, string>;
   method?: HttpMethodsEnum;
-  data?: Record<string, unknown>;
+  data?: object;
   timeout?: number;
 }
 // type HttpMethod<Tresp> = (url: string, options?: HttpMethodOptions) => Promise<{status: number, response: Tresp}>;
@@ -62,7 +62,7 @@ class HTTPTransport {
       xhr.open(
         method,
         isGet && !!data
-          ? `${url}${queryStringify(data)}`
+          ? `${url}${queryStringify(data as Record<string, unknown>)}`
           : url
       );
 
@@ -100,6 +100,8 @@ class HTTPTransport {
       try {
         if (isGet || !data) {
           xhr.send();
+        } else if (data instanceof FormData) {
+          xhr.send(data);
         } else {
           xhr.send(JSON.stringify(data));
         }

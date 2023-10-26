@@ -1,10 +1,11 @@
 <main class="profile-page">
   <div class="profile-page__backward">
-    {{{ ArrowButton direction="left" onClick=onBack }}}
+    {{!-- {{{ ArrowButton direction="left" onClick=onBack }}} --}}
   </div>
   <div class="profile-page__content">
-    <div class="profile-avatar"></div>
-    <div class="profile-name">{{name}}</div>
+    {{!-- <div class="profile-avatar"></div> --}}
+    {{{ AvatarInput avatarId=avatarId}}}
+    {{!-- <div class="profile-name">{{name}}</div>
     <form class="profile-form" action="">
       {{{ ProfileField label="Почта" name="email" ref="email" value="middle@ya.ru" edit=edit validateFn=validateFns.email }}}
       {{{ ProfileField label="Логин" name="login" ref="login" value="IVAN" edit=edit validateFn=validateFns.login }}}
@@ -22,6 +23,6 @@
         {{{ FormButton title="Выйти" transparent=true }}}
         {{/if}}
       </div>
-    </form>
+    </form> --}}
   </div>
 </main>

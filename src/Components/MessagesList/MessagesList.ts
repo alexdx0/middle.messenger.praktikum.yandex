@@ -1,85 +1,46 @@
 import { Block } from "@Core";
-// import { Router } from "@app/appRouting";
-// import { ChatContextPopup } from "@components/index";
-import { UseClickOutside } from "@utils/UseClickOutside";
-import { BlockPropsType } from "@Core/Block";
+import { AppStore } from "@Core/AppStore";
+import { connect } from "@Core/connect";
+import { Indexed } from "@app/types/Indexed";
+import { MouseEventHandler } from "@models/MouseEventHandler";
 
 import MessagesListHbs from "./MessagesList.hbs";
 
-export class MessagesList extends Block {
-  private _isContextPopupVisible: boolean = false;
-  private _isAttachPopupVisible: boolean = false;
-  private _clickOutsideDisposers: Array<() => void> = [];
+interface IMessagesListProps extends Indexed {
+  onMenuClick: MouseEventHandler;
+  isChatContextPopupOpened: boolean;
+}
 
-  constructor() {
+class MessagesList extends Block<IMessagesListProps> {
+  constructor(props: IMessagesListProps) {
+    // console.log("MessagesList props", props);
     super({
-      onMenuClick: (e: MouseEvent) => {
-        e.stopPropagation();
+      ...props,
+      menuClickHandler: () => {
+        AppStore.set({ isChatContextPopupOpened: true });
         // Router.go("/error", { code: "500", description: "Мы уже фиксим" });
-        if (this._isContextPopupVisible) {
-          this.refs.contextPopup.hide();
-        } else {
-          this.refs.contextPopup.show();
-        }
-        this._isContextPopupVisible = !this._isContextPopupVisible;
       },
-      onAttachClick: (e: MouseEvent) => {
-        e.stopPropagation();
+      attachClickHandler: () => {
         // Router.go("/error", { code: "500", description: "Мы уже фиксим" });
-        if (this._isAttachPopupVisible) {
-          this.refs.attachPopup.hide();
-        } else {
-          this.refs.attachPopup.show();
-        }
-        this._isAttachPopupVisible = !this._isAttachPopupVisible;
+        AppStore.set({ isAttachPopupOpened: true });
       },
 
     });
 
-    this.refs.contextPopup.hide();
-    this.refs.attachPopup.hide();
+    // this.refs.contextPopup.hide();
+    // this.refs.attachPopup.hide();
 
     // this.props.messages = [chats[1].last_message];
     // this.props.title = chats[1].title;
-  }
-
-  closeContextPopup = () => {
-    // console.log("click outside");
-    this.refs.contextPopup.hide();
-    this._isContextPopupVisible = false;
-  };
-
-  closeAttachPopup = () => {
-    // console.log("click outside");
-    this.refs.attachPopup.hide();
-    this._isAttachPopupVisible = false;
-  };
-
-  componentDidMount = () => {
-    console.log("MessagesList CDM");
-    this._clickOutsideDisposers.push(UseClickOutside(this.refs.contextPopup.element, this.closeContextPopup));
-    this._clickOutsideDisposers.push(UseClickOutside(this.refs.attachPopup.element, this.closeAttachPopup));
-
-    setTimeout(() => {
-      console.log("disposers", this._clickOutsideDisposers);
-    }, 5000);
-  };
-
-  componentDidUpdate(oldProps: BlockPropsType, newProps: BlockPropsType): void {
-    console.log("MessagesList CDU");
-    console.log(this);
-  }
-
-  componentWillUnmount() {
-    console.log("MessagesList CWU");
-    this._clickOutsideDisposers.forEach(disposer => {
-      console.log("dispose");
-      console.log(disposer);
-      disposer();
-    });
   }
 
   protected render() {
     return MessagesListHbs;
   }
 }
+
+const instance = connect((state) => ({
+  isChatContextPopupOpened: state.isChatContextPopupOpened,
+  chat: state.currentChat,
+}))(MessagesList);
+export { instance as MessagesList };

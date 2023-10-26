@@ -1,15 +1,22 @@
 <div class="messages-list">
+  {{#if chat}}
   <header class="messages-list__header">
     <div class="contact-info">
       <div class="contact-info__avatar">
+        {{#if chat.avatar}}
+        <div class="avatar-image"
+          style="background-image: url(https://ya-praktikum.tech/api/v2/resources{{chat.avatar}}); background-size: cover;">
+        </div>
+        {{else}}
         <div class="icon-no-photo"></div>
+        {{/if}}
       </div>
       <div class="contact-info__name">
-        {{title}}
+        {{chat.title}}
       </div>
     </div>
     <div class="more-button">
-      {{{ ThreeDotsButton onClick=onMenuClick }}}
+      {{{ ThreeDotsButton onClick=menuClickHandler }}}
     </div>
   </header>
   <main class="messages-list__content">
@@ -20,10 +27,13 @@
   <div>
   </div>
   <footer class="messages-list__footer">
-    {{{ AttachButton onClick=onAttachClick}}}
+    {{{ AttachButton onClick=attachClickHandler }}}
     {{{ MessageInput }}}
     {{{ ArrowButton direction="right" }}}
   </footer>
   {{{ ChatContextPopup ref="contextPopup" }}}
   {{{ AttachPopup ref="attachPopup" }}}
+  {{else}}
+  <div class="welcome-message">Выберите интересующий Вас чат</div>
+  {{/if}}
 </div>

@@ -4,6 +4,7 @@
  * @param onClickOutside Коллбэк, выполняемый при клике вне HTML-элемента {@link element}
  * @returns Функция отписки от события, которую нужно вызвать для удаления обработчиков
  */
+// TODO remove
 export const UseClickOutside = (element: HTMLElement | null, onClickOutside: () => void) => {
   const handler = (e: MouseEvent) => {
     if (!element?.contains(e.target as HTMLElement) && !(e.target as HTMLElement).contains(element)) {

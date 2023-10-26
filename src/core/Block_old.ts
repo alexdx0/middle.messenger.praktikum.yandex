@@ -3,22 +3,18 @@ import { v4 as makeUUID } from "uuid";
 
 import EventBus, { Listener } from "./EventBus";
 
-export type RefType = {
-  [key: string]: Block<BlockPropsType>
-}
-
-export type BlockPropsType = Record<string, unknown | Block<BlockPropsType>> &
+type BlockPropsType = Record<string, unknown | Block<BlockPropsType>> &
 { events?: Record<string, () => void> } & object;
 
 type RootChildren = {
   component: Block<BlockPropsType>,
-  embed(fragment: DocumentFragment, isMounted: boolean): void;
+  embed(fragment: DocumentFragment): void;
 }
 
 type ContextAndStubsType = BlockPropsType & { "__refs": BlockPropsType } & { "__children"?: RootChildren[] };
 
 // Нельзя создавать экземпляр данного класса
-export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends RefType = RefType> {
+export class Block<Tprops extends BlockPropsType = BlockPropsType> {
   static EVENTS = {
     INIT: "init",
     /** ComponentDidMount */
@@ -27,25 +23,21 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     FLOW_CDU: "flow:component-did-update",
     /** Render */
     FLOW_RENDER: "flow:render",
-    /** ComponentWillUnmount */
-    FLOW_CWU: "flow:component-will-unmount",
   };
 
   public id = makeUUID();
   protected props: Tprops;
-  protected refs: Trefs = {} as Trefs;
-  public children: Block[] = [];
+  protected refs: Record<string, Block> = {};
+  public children: BlockPropsType;
   private eventBus: () => EventBus;
   protected _element: HTMLElement | null = null;
-  private _isMounted: boolean = false;
-  private _prevProps: Tprops = {} as Tprops;
 
   constructor(propsWithChildren: Tprops = {} as Tprops) {
     const eventBus = new EventBus();
 
-    const { props } = this._getChildrenAndProps(propsWithChildren);
+    const { props, children } = this._getChildrenAndProps(propsWithChildren);
 
-    // this.children = children as BlockPropsType;
+    this.children = children as BlockPropsType;
     this.props = this._makePropsProxy(props) as Tprops;
 
     this.eventBus = () => eventBus;
@@ -67,7 +59,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
       }
     });
 
-    // TODO eliminate children
     return { props, children };
   }
 
@@ -93,7 +84,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this) as Listener<unknown[]>);
-    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -106,64 +96,24 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
   protected init() {
   }
 
-  // #region CDU
-  public dispatchComponentDidUpdate() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
-    // Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
-  }
-
-  // _componentDidUpdate() {
-  //   this.componentDidMount();
-  //   // this._makeUnmountObservable(() => this.dispatchComponentWillUnmount());
-  // }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  componentDidUpdate(_oldProps: Tprops, _newProps: Tprops) {
-  }
-
-  private _componentDidUpdate(oldProps: Tprops, newProps: Tprops) {
-    if (this.componentShouldUpdate(oldProps, newProps)) {
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-      if (this._isMounted) {
-        this.componentDidUpdate(oldProps, newProps);
-      }
-    }
-  }
-
-  // #endregion CDU
-
-  // #region CDM
-  public dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-    // Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
-  }
-
   _componentDidMount() {
-    this._isMounted = true;
-    // console.log("set _isMounted = true", this.element!.className);
     this.componentDidMount();
-    // this._makeUnmountObservable(() => this.dispatchComponentWillUnmount());
   }
 
   componentDidMount() {
   }
-  // #endregion CDM
 
-  // #region CWU
-  public dispatchComponentWillUnmount() {
-    // console.log("block CWU", element);
-    this.eventBus().emit(Block.EVENTS.FLOW_CWU);
-    Object.values(this.children).forEach(child => (child as Block).dispatchComponentWillUnmount());
+  public dispatchComponentDidMount() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+
+    Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
   }
 
-  _componentWillUnmount() {
-    this.componentWillUnmount();
+  private _componentDidUpdate(oldProps: BlockPropsType, newProps: BlockPropsType) {
+    if (this.componentShouldUpdate(oldProps, newProps)) {
+      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    }
   }
-
-  componentWillUnmount() {
-
-  }
-  // #endregion CWU
 
   protected componentShouldUpdate(oldProps: Record<string, unknown>, _newProps: Record<string, unknown>) {
     return oldProps !== _newProps;
@@ -186,7 +136,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     const newElement = fragment.firstElementChild as HTMLElement;
 
     this._removeEvents();
-    // console.log(this.children);
 
     if (this._element) {
       this._element.replaceWith(newElement);
@@ -202,17 +151,12 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
     const html = template(contextAndStubs);
 
-    // TODO попробовать переделать на фрагмент
     const temp = document.createElement("template");
 
     temp.innerHTML = html;
 
-    if (contextAndStubs.__children?.length) {
-      this.children = contextAndStubs.__children.map(x => x.component);
-    }
-
     contextAndStubs.__children?.forEach(({ embed }: Pick<RootChildren, "embed">) => {
-      embed(temp.content, this._isMounted);
+      embed(temp.content);
     });
 
     return temp.content;
@@ -222,21 +166,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     return () => "";
   }
 
-  getContent(isMounted?: boolean) {
-    // Хак, чтобы вызвать CDM только после добавления в DOM
-    if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
-      setTimeout(() => {
-        if (this.element?.parentNode?.nodeType !== Node.DOCUMENT_FRAGMENT_NODE) {
-          if (isMounted) {
-            this.componentDidUpdate(this._prevProps, this.props);
-          } else {
-            this.dispatchComponentDidMount();
-          }
-          // this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-        }
-      }, 100);
-    }
-
+  getContent() {
     return this.element;
   }
 
@@ -251,7 +181,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
         target[prop] = value;
 
-        this._prevProps = oldTarget as Tprops;
         this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
@@ -261,8 +190,13 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     });
   };
 
+  _createDocumentElement(tagName: string) {
+    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
+    return document.createElement(tagName);
+  }
+
   show() {
-    this.getContent()!.style.display = "revert-layer";
+    this.getContent()!.style.display = "block";
   }
 
   hide() {

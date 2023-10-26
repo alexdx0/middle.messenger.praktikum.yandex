@@ -17,17 +17,18 @@ export class FormButton extends Block<IFormButtonProps> {
     };
   }
 
-  componentDidMount(): void {
-    console.log("formButton CDM");
-  }
+  // TODO remove
+  // componentDidMount(): void {
+  //   console.log("formButton CDM");
+  // }
 
-  componentWillUnmount(): void {
-    console.log("formButton CWU");
-  }
+  // componentWillUnmount(): void {
+  //   console.log("formButton CWU");
+  // }
 
-  componentDidUpdate(): void {
-    console.log("formButton CDU");
-  }
+  // componentDidUpdate(): void {
+  //   console.log("formButton CDU");
+  // }
 
   protected render() {
     return FormButtonHbs;

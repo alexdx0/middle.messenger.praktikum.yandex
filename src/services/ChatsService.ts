@@ -6,11 +6,6 @@ class ChatsService extends BaseApiService {
   getChats() {
     return HTTP.get<ChatModel[]>(this.restUrl("chats"), {
       headers: { "Content-Type": "application/json" },
-      data: {
-        offset: 0,
-        limit: 50,
-        title: "",
-      },
     });
   }
 }

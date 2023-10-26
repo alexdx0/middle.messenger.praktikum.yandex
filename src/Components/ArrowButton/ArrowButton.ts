@@ -24,19 +24,18 @@ export class ArrowButton extends Block<IArrowButtonProps> {
     }, 2000);
   }
 
-  componentDidMount(): void {
-    console.log("ArrowButton CDM");
-  }
+  // TODO remove
+  // componentDidMount(): void {
+  //   console.log("ArrowButton CDM");
+  // }
 
-  componentWillUnmount(): void {
-    console.log("ArrowButton CWU");
-  }
+  // componentWillUnmount(): void {
+  //   console.log("ArrowButton CWU");
+  // }
 
-  componentDidUpdate(prevProps, nextProps): void {
-    console.log("ArrowButton CDU");
-    // console.log("prevProps", prevProps);
-    // console.log("nextProps", nextProps);
-  }
+  // componentDidUpdate(): void {
+  //   console.log("ArrowButton CDU");
+  // }
 
   protected render() {
     return ArrowButtonHbs;

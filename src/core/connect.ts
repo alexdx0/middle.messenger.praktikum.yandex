@@ -1,5 +1,5 @@
 import { Block, BlockPropsType, RefType } from "@Core/Block";
-import { StoreEvents } from "@app/AppStore";
+import { StoreEvents } from "@Core/AppStore";
 import { AppStoreModel } from "@models/AppStoreModel";
 import { isEqual } from "@utils/isEqual";
 

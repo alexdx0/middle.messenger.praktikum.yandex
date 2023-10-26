@@ -2,6 +2,7 @@
 @import "@styles/flex";
 @import "@styles/common";
 @import "@styles/icons";
+@import "@styles/buttons";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -52,7 +53,6 @@ body {
   &.is-visible {
     display: block;
   }
-
 
   .modal-overlay {
     position: relative;

@@ -1,7 +1,7 @@
 import { Block } from "@Core";
 import { Indexed } from "@app/types/Indexed";
 import { ChatsService } from "@services/ChatsService";
-import { AppStore } from "@app/AppStore";
+import { AppStore } from "@Core/AppStore";
 import { connect } from "@Core/connect";
 
 import MainLayoutHbs from "./MainLayout.hbs";

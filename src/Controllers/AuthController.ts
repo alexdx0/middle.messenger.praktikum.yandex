@@ -1,4 +1,4 @@
-import { AppStore } from "@app/AppStore";
+import { AppStore } from "@Core/AppStore";
 import { ModalService } from "@app/Modals/ModalService";
 import { userSignUpModel } from "@models/api/userSignUpModel";
 import { AuthService } from "@services/AuthService";

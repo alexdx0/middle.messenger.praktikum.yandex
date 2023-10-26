@@ -3,16 +3,20 @@ import { validateFns } from "@utils/validateFns";
 import { formDataLogger } from "@utils/formDataLogger";
 import { FormInput } from "@components/FormInput";
 import { Router } from "@app/appRouting";
+import { connect } from "@Core/connect";
+import { Indexed } from "@app/types/Indexed";
+import { UserModel } from "@models/UserModel";
 
 import ProfilePageHbs from "./ProfilePage.hbs";
 
-interface IProfilePageProps {
-  [key: string]: unknown;
+interface IProfilePageProps extends Indexed {
   edit: boolean;
+  user: UserModel;
 }
 
-export class ProfilePage extends Block<IProfilePageProps> {
+class ProfilePage extends Block<IProfilePageProps> {
   constructor(props: IProfilePageProps) {
+    // console.log("ProfilePage props", props);
     super({
       ...props,
       validateFns,
@@ -22,10 +26,18 @@ export class ProfilePage extends Block<IProfilePageProps> {
       },
       onBack: () => Router.go("/messenger"),
       onEditProfile: () => Router.go("/settings", { edit: true }),
+      avatarId: props.user.avatar,
     });
+  }
+
+  componentDidUpdate(_oldProps: IProfilePageProps, _newProps: IProfilePageProps): void {
+    console.log("ProfilePage CDU");
   }
 
   protected render() {
     return ProfilePageHbs;
   }
 }
+
+const instance = connect(({ user }) => ({ user }))(ProfilePage);
+export { instance as ProfilePage };
