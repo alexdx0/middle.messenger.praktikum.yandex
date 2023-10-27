@@ -1,8 +1,7 @@
 import { Block } from "@Core";
 import { Indexed } from "@app/types/Indexed";
-import { ChatsService } from "@services/ChatsService";
-import { AppStore } from "@Core/AppStore";
 import { connect } from "@Core/connect";
+import { ChatsController } from "@app/Controllers/ChatsController";
 
 import MainLayoutHbs from "./MainLayout.hbs";
 
@@ -20,9 +19,7 @@ class MainLayout extends Block<IMainLayoutProps> {
   }
 
   componentDidMount(): void {
-    ChatsService.getChats().then((data) => {
-      AppStore.set({ chats: data.response });
-    });
+    ChatsController.getChats();
   }
 
   protected render() {

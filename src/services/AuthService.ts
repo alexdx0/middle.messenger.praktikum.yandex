@@ -1,11 +1,11 @@
-import { UserModel } from "@models/UserModel";
-import { userSignUpModel } from "@models/api/userSignUpModel";
+import { UserWithIdModel } from "@models/UserWithIdModel";
+import { userSignUpModel } from "@models/userSignUpModel";
 import { BaseApiService } from "@services/BaseApiService";
 import { HTTP } from "@utils/HttpTransport";
 
 class AuthService extends BaseApiService {
   getUserInfo() {
-    return HTTP.get<UserModel>(this.restUrl("auth/user"), {
+    return HTTP.get<UserWithIdModel>(this.restUrl("auth/user"), {
       headers: { "Content-Type": "application/json" },
     });
   }

@@ -18,24 +18,7 @@ export class ArrowButton extends Block<IArrowButtonProps> {
     this.props.events = {
       click: this.props.onClick,
     };
-
-    setTimeout(() => {
-      this.setProps({ direction: "left" });
-    }, 2000);
   }
-
-  // TODO remove
-  // componentDidMount(): void {
-  //   console.log("ArrowButton CDM");
-  // }
-
-  // componentWillUnmount(): void {
-  //   console.log("ArrowButton CWU");
-  // }
-
-  // componentDidUpdate(): void {
-  //   console.log("ArrowButton CDU");
-  // }
 
   protected render() {
     return ArrowButtonHbs;

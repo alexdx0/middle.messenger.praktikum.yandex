@@ -9,6 +9,7 @@ const appRoutes: Record<string, BlockType> = {
   "/settings": Pages.ProfilePage as BlockType,
   "/messenger": Pages.MainLayout as BlockType,
   "/error": Pages.ErrorPage as BlockType,
+  "/change-password": Pages.ChangePasswordPage as BlockType,
 };
 
 const router = new Router("#root");

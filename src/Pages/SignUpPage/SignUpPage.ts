@@ -2,7 +2,7 @@ import { Block } from "@Core";
 import { validateFns } from "@utils/validateFns";
 import { FormInput } from "@components/FormInput";
 import { getRefsInputsValues } from "@utils/getRefsInputsValues";
-import { userSignUpModel } from "@models/api/userSignUpModel";
+import { userSignUpModel } from "@models/userSignUpModel";
 import { AuthController } from "@app/Controllers/AuthController";
 import { Router } from "@app/appRouting";
 
@@ -23,7 +23,6 @@ export class SignUpPage extends Block {
           return null;
         }
         AuthController.signUp(formValues);
-        AuthController.getUserInfo();
         // Router.go("/messenger");
       },
       lognHandler() {

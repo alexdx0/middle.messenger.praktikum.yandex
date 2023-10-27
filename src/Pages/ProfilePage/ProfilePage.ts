@@ -1,11 +1,13 @@
 import { Block } from "@Core";
 import { validateFns } from "@utils/validateFns";
-import { formDataLogger } from "@utils/formDataLogger";
 import { FormInput } from "@components/FormInput";
 import { Router } from "@app/appRouting";
 import { connect } from "@Core/connect";
 import { Indexed } from "@app/types/Indexed";
 import { UserModel } from "@models/UserModel";
+import { UserController } from "@app/Controllers/UserController";
+import { getFormRefsData } from "@utils/getFormRefsData";
+import { AuthController } from "@app/Controllers/AuthController";
 
 import ProfilePageHbs from "./ProfilePage.hbs";
 
@@ -16,22 +18,22 @@ interface IProfilePageProps extends Indexed {
 
 class ProfilePage extends Block<IProfilePageProps> {
   constructor(props: IProfilePageProps) {
-    // console.log("ProfilePage props", props);
     super({
       ...props,
       validateFns,
-      onSave: (e: MouseEvent) => {
-        formDataLogger(this.refs as Record<string, FormInput>, e);
-        Router.go("/messenger");
+      saveHandler: () => {
+        const formData = getFormRefsData(this.refs as Record<keyof UserModel, FormInput>);
+        UserController.changeUserProfile(formData as unknown as UserModel);
       },
-      onBack: () => Router.go("/messenger"),
-      onEditProfile: () => Router.go("/settings", { edit: true }),
-      avatarId: props.user.avatar,
+      logoutHandler: () => {
+        AuthController.logout();
+      },
+      changePasswordHandler: () => {
+        Router.go("/change-password");
+      },
+      backHandler: () => Router.go("/messenger"),
+      editProfileHandler: () => Router.go("/settings", { edit: true }),
     });
-  }
-
-  componentDidUpdate(_oldProps: IProfilePageProps, _newProps: IProfilePageProps): void {
-    console.log("ProfilePage CDU");
   }
 
   protected render() {

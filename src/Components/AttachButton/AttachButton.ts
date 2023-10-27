@@ -15,6 +15,7 @@ export class AttachButton extends Block<IAttachButtonProps> {
     };
   }
 
+  // TODO remove
   componentDidMount(): void {
     // console.log("AttachButton CDM");
   }

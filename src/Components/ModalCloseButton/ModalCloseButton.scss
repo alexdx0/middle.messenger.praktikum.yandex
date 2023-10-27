@@ -1,0 +1,16 @@
+@use '@styles/variables' as v;
+
+.modal-close-button {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  background: transparent;
+  outline: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  &__cross {
+    color: v.$c-gray;
+  }
+}

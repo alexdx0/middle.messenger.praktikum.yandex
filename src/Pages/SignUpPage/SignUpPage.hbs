@@ -1,13 +1,13 @@
 <main class="signup-page">
   <form class="signup-form" action="">
     <span class="signup-form__title">Регистрация</span>
-    {{{ FormInput title="Почта" value="middle@ya.ru" name="email" ref="email" validateFn=validateFns.email }}}
-    {{{ FormInput title="Логин" value="IVAN" name="login" ref="login" validateFn=validateFns.login }}}
-    {{{ FormInput title="Имя" value="Ivan" name="first_name" ref="first_name" validateFn=validateFns.name }}}
-    {{{ FormInput title="Фамилия" value="Ivanov" name="second_name" ref="second_name" validateFn=validateFns.name }}}
-    {{{ FormInput title="Телефон" type="tel" name="phone" value="+76665554433" ref="phone" validateFn=validateFns.phone }}}
-    {{{ FormInput title="Пароль" type="text" name="password" value="1234567A" ref="password" validateFn=validateFns.password }}}
-    {{{ FormInput title="Пароль (еще раз)" type="text" name="password2" value="1234567A" ref="password2" validateFn=validateFns.password }}}
+    {{{ FormInput title="Почта" name="email" ref="email" validateFn=validateFns.email }}}
+    {{{ FormInput title="Логин" name="login" ref="login" validateFn=validateFns.login }}}
+    {{{ FormInput title="Имя" name="first_name" ref="first_name" validateFn=validateFns.name }}}
+    {{{ FormInput title="Фамилия" name="second_name" ref="second_name" validateFn=validateFns.name }}}
+    {{{ FormInput title="Телефон" type="tel" name="phone" ref="phone" validateFn=validateFns.phone }}}
+    {{{ FormInput title="Пароль" type="text" name="password" ref="password" validateFn=validateFns.password }}}
+    {{{ FormInput title="Пароль (еще раз)" type="text" name="password2" ref="password2" validateFn=validateFns.password }}}
     <br>
     {{{ FormButton title="Зарегистрироваться" onClick=signUpHandler}}}
     {{{ FormButton title="Войти" transparent=true onClick=lognHandler}}}

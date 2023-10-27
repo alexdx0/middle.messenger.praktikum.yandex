@@ -1,0 +1,12 @@
+@use '@styles/variables' as v;
+
+.add-user-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  background-color: v.$c-white;
+  height: 100%;
+  width: 100%;
+}

@@ -1,28 +1,27 @@
 <main class="profile-page">
   <div class="profile-page__backward">
-    {{!-- {{{ ArrowButton direction="left" onClick=onBack }}} --}}
+    {{{ ArrowButton direction="left" onClick=backHandler }}}
   </div>
   <div class="profile-page__content">
-    {{!-- <div class="profile-avatar"></div> --}}
-    {{{ AvatarInput avatarId=avatarId}}}
-    {{!-- <div class="profile-name">{{name}}</div>
+    {{{ AvatarInput avatarId=user.avatar}}}
+    <div class="profile-name">{{user.display_name}}</div>
     <form class="profile-form" action="">
-      {{{ ProfileField label="Почта" name="email" ref="email" value="middle@ya.ru" edit=edit validateFn=validateFns.email }}}
-      {{{ ProfileField label="Логин" name="login" ref="login" value="IVAN" edit=edit validateFn=validateFns.login }}}
-      {{{ ProfileField label="Имя" name="first_name" ref="first_name" value="Ivan" edit=edit validateFn=validateFns.name }}}
-      {{{ ProfileField label="Фамилия" name="second_name" ref="second_name" value="Ivanov" edit=edit validateFn=validateFns.name }}}
-      {{{ ProfileField label="Имя в чате" name="display_name" ref="display_name" value="IVAN" edit=edit }}}
-      {{{ ProfileField label="Телефон" name="phone" ref="phone" type="tel" value="+76665554433" edit=edit validateFn=validateFns.phone }}}
+      {{{ ProfileField label="Почта" name="email" ref="email" value=user.email edit=edit validateFn=validateFns.email }}}
+      {{{ ProfileField label="Логин" name="login" ref="login" value=user.login edit=edit validateFn=validateFns.login }}}
+      {{{ ProfileField label="Имя" name="first_name" ref="first_name" value=user.first_name edit=edit validateFn=validateFns.name }}}
+      {{{ ProfileField label="Фамилия" name="second_name" ref="second_name" value=user.second_name edit=edit validateFn=validateFns.name }}}
+      {{{ ProfileField label="Имя в чате" name="display_name" ref="display_name" value=user.display_name edit=edit }}}
+      {{{ ProfileField label="Телефон" name="phone" ref="phone" type="tel" value=user.phone edit=edit validateFn=validateFns.phone }}}
       <br>
       <div class="profile-form__actions">
         {{#if edit}}
-        {{{ FormButton title="Сохранить" onClick=onSave }}}
+        {{{ FormButton title="Сохранить" onClick=saveHandler }}}
         {{else}}
-        {{{ FormButton title="Изменить данные" transparent=true onClick=onEditProfile }}}
-        {{{ FormButton title="Изменить пароль" transparent=true }}}
-        {{{ FormButton title="Выйти" transparent=true }}}
+        {{{ FormButton title="Изменить данные" transparent=true onClick=editProfileHandler }}}
+        {{{ FormButton title="Изменить пароль" transparent=true onClick=changePasswordHandler }}}
+        {{{ FormButton title="Выйти" transparent=true onClick=logoutHandler }}}
         {{/if}}
       </div>
-    </form> --}}
+    </form>
   </div>
 </main>

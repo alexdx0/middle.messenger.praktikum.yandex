@@ -1,4 +1,6 @@
+import { PasswordChangeModel } from "@models/PasswordChangeModel";
 import { UserModel } from "@models/UserModel";
+import { UserWithIdModel } from "@models/UserWithIdModel";
 import { BaseApiService } from "@services/BaseApiService";
 import { HTTP } from "@utils/HttpTransport";
 
@@ -8,6 +10,29 @@ class UserService extends BaseApiService {
     formData.append("avatar", file);
     return HTTP.put<UserModel>(this.restUrl("user/profile/avatar"), {
       data: formData,
+    });
+  }
+
+  changeUserProfile(user: UserModel) {
+    return HTTP.put<UserModel>(this.restUrl("user/profile"), {
+      headers: { "Content-Type": "application/json" },
+      data: user,
+    });
+  }
+
+  changeUserPassword(data: PasswordChangeModel) {
+    return HTTP.put<UserModel>(this.restUrl("user/password"), {
+      headers: { "Content-Type": "application/json" },
+      data,
+    });
+  }
+
+  searchUser(login: string) {
+    return HTTP.post<UserWithIdModel[]>(this.restUrl("user/search"), {
+      headers: { "Content-Type": "application/json" },
+      data: {
+        login,
+      },
     });
   }
 }

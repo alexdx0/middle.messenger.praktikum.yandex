@@ -1,0 +1,10 @@
+@use '@styles/variables' as v;
+
+.simple-select {
+  border: 1px solid v.$c-light-gray;
+  width: 100%;
+  height: 2rem;
+  outline: none;
+  background-color: v.$c-white;
+  color: v.$c-black;
+}

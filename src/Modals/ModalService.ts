@@ -1,4 +1,5 @@
 import { ModalRegistry, ModalRegistryTypes, ModalKey } from "@app/Modals/ModalRegistry";
+import { IRemoveUserModalProps } from "@app/Modals/RemoveUserModal/RemoveUserModal";
 
 class ModalService {
   private _params: Partial<ModalRegistryTypes> = {};
@@ -13,7 +14,7 @@ class ModalService {
       return;
     }
 
-    const instance = new ModalContentBlock();
+    const instance = new ModalContentBlock({} as IRemoveUserModalProps);
     document.querySelector("#modal-root .modal-dialog__content")!.append(instance.getContent()!);
   }
 

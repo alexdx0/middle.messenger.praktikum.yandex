@@ -17,3 +17,7 @@ export { AttachPopup } from "./PopUps/AttachPopup";
 export { PopupOverlay } from "./PopUps/PopupOverlay";
 export { AttachButton } from "./AttachButton";
 export { AvatarInput } from "./AvatarInput";
+export { PopupButton } from "./PopupButton";
+export { ModalCloseButton } from "./ModalCloseButton";
+export { FormSelect } from "./FormSelect";
+export { SimpleSelect } from "./SimpleSelect";

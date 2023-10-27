@@ -1,7 +1,8 @@
 import { AppStore } from "@Core/AppStore";
-import { ModalService } from "@app/Modals/ModalService";
-import { userSignUpModel } from "@models/api/userSignUpModel";
+import { Router } from "@app/appRouting";
+import { userSignUpModel } from "@models/userSignUpModel";
 import { AuthService } from "@services/AuthService";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 class AuthController {
   getUserInfo() {
@@ -13,8 +14,7 @@ class AuthController {
       .then(() => this.getUserInfo())
       .then((data) => AppStore.set({ user: data.response }))
       .catch((error: Error) => {
-      // 409 reason: "Login already exists"
-        ModalService.show("info-modal", { message: error.message });
+        apiErrorHandler(error);
         return Promise.reject(error);
       });
   }
@@ -23,15 +23,24 @@ class AuthController {
     AuthService.signUp(user)
       .then((data) => {
         console.log("data", data);
+        this.getUserInfo().then((data) => {
+          AppStore.set({ user: data.response });
+          Router.go("/settings");
+        });
       })
-      .catch((error: Error) => {
-        // 409 reason: "Login already exists"
-        ModalService.show("info-modal", { message: error.message });
-      });
+      .catch(apiErrorHandler);
   }
 
+  // logout() {
+  //   AuthService.logout();
+  // }
   logout() {
-    AuthService.logout();
+    return AuthService.logout()
+      .then(() => Router.go("/"))
+      .catch((error: Error) => {
+        apiErrorHandler(error);
+        return Promise.reject(error);
+      });
   }
 }
 

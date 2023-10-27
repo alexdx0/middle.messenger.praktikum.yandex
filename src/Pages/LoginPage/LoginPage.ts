@@ -5,6 +5,7 @@ import { FormInput } from "@components/FormInput";
 import { AuthController } from "@app/Controllers/AuthController";
 import { getRefsInputsValues } from "@utils/getRefsInputsValues";
 import { connect } from "@Core/connect";
+import { AppStore } from "@Core/AppStore";
 
 import LoginPageHbs from "./LoginPage.hbs";
 
@@ -19,34 +20,21 @@ class LoginPage extends Block {
     super({
       validateFns,
       noAccountHandler: () => {
-        // AuthController.logout();
         Router.go("/sign-up");
       },
       loginHandler: () => {
-        // formDataLogger(this.refs as Record<string, FormInput>, e);
         const formValues = getRefsInputsValues(this.refs as Record<keyof LoginPageInputs, FormInput>);
-        // console.log(formValues);
         if (Object.values(formValues).some(x => !x)) {
           return null;
         }
         AuthController.signIn(formValues.login, formValues.password)
           .then(() => Router.go("/messenger"));
-        // AuthController.getUserInfo();
-        // Router.go("/messenger");
       },
     });
-
-    // setTimeout(() => {
-    //   Router.go("/sign-up");
-    // }, 2000);
   }
 
   componentDidMount(): void {
-    console.log("loginPage CDM");
-  }
-
-  componentWillUnmount(): void {
-    console.log("loginPage CWU");
+    AppStore.clear();
   }
 
   protected render() {

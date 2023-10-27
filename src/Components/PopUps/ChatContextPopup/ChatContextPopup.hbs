@@ -2,22 +2,9 @@
   {{#if isChatContextPopupOpened}}
   {{{ PopupOverlay onClick=overlayClickHandler}}}
   <section class="chat-context-popup">
-    <button type="button" class="popup-button">
-      <div class="add-icon"></div>
-      <span>Добавить пользователя</span>
-    </button>
-    <button type="button" class="popup-button">
-      <div class="remove-icon"></div>
-      <span>Удалить пользователя</span>
-    </button>
-    <button type="button" class="popup-button">
-      <div class="photo-icon"></div>
-      <span>Изменить автар</span>
-    </button>
-    <button type="button" class="popup-button">
-      <div class="remove-icon"></div>
-      <span>Удалить чат</span>
-    </button>
+    {{{ PopupButton icon="add-icon" title="Добавить пользователя" onClick=addUserHandler}}}
+    {{{ PopupButton icon="remove-icon" title="Удалить пользователя" onClick=removeUserHandler }}}
+    {{{ PopupButton icon="photo-icon" title="Изменить автар" }}}
   </section>
   {{/if}}
 </div>

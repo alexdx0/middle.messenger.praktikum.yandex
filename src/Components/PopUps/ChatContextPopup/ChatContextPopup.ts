@@ -2,6 +2,7 @@ import { Block } from "@Core";
 import { AppStore } from "@Core/AppStore";
 import { connect } from "@Core/connect";
 import { Indexed } from "@app/types/Indexed";
+import { ModalService } from "@app/Modals/ModalService";
 
 import ChatContextPopupHbs from "./ChatContextPopup.hbs";
 
@@ -16,6 +17,14 @@ class ChatContextPopup extends Block<IChatContextPopupProps> {
       ...props,
       overlayClickHandler: () => {
         AppStore.set({ isChatContextPopupOpened: false });
+      },
+      addUserHandler: () => {
+        AppStore.set({ isChatContextPopupOpened: false });
+        ModalService.show("add-user-modal", null);
+      },
+      removeUserHandler: () => {
+        AppStore.set({ isChatContextPopupOpened: false });
+        ModalService.show("remove-user-modal", null);
       },
     });
   }

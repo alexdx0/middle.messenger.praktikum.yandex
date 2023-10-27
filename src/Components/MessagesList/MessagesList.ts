@@ -3,12 +3,21 @@ import { AppStore } from "@Core/AppStore";
 import { connect } from "@Core/connect";
 import { Indexed } from "@app/types/Indexed";
 import { MouseEventHandler } from "@models/MouseEventHandler";
+import WebSocketTransport from "@Core/WebSocketTransport";
+import { ChatModel } from "@models/ChatModel";
+import { MessageModel } from "@models/MessageModel";
+import { ChatsController } from "@app/Controllers/ChatsController";
 
 import MessagesListHbs from "./MessagesList.hbs";
 
 interface IMessagesListProps extends Indexed {
   onMenuClick: MouseEventHandler;
   isChatContextPopupOpened: boolean;
+
+  chat: ChatModel;
+  userId: number;
+  token: string;
+  messages: MessageModel;
 }
 
 class MessagesList extends Block<IMessagesListProps> {
@@ -27,11 +36,32 @@ class MessagesList extends Block<IMessagesListProps> {
 
     });
 
+    if (props.chat) {
+      ChatsController.getChatToken(props.chat.id)
+        .then(token => AppStore.set({ token: token.response.token }));
+    }
+
     // this.refs.contextPopup.hide();
     // this.refs.attachPopup.hide();
 
     // this.props.messages = [chats[1].last_message];
     // this.props.title = chats[1].title;
+  }
+
+  componentDidMount(): void {
+    const updater = (messages: MessageModel[]) => {
+      AppStore.set({ messages });
+    };
+    // eslint-disable-next-line no-new
+    new WebSocketTransport(this.props.userId, this.props.chat.id, this.props.token, updater);
+  }
+
+  componentDidUpdate(_oldProps: IMessagesListProps, _newProps: IMessagesListProps): void {
+    const updater = (messages: MessageModel[]) => {
+      AppStore.set({ messages });
+    };
+    // eslint-disable-next-line no-new
+    new WebSocketTransport(this.props.userId, this.props.chat.id, this.props.token, updater);
   }
 
   protected render() {
@@ -42,5 +72,8 @@ class MessagesList extends Block<IMessagesListProps> {
 const instance = connect((state) => ({
   isChatContextPopupOpened: state.isChatContextPopupOpened,
   chat: state.currentChat,
+  userId: state.user?.id,
+  token: state.token,
+  messages: state.messages,
 }))(MessagesList);
 export { instance as MessagesList };
