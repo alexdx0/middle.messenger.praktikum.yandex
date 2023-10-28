@@ -37,6 +37,20 @@ class ChatsService extends BaseApiService {
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  addChat(chatName: string) {
+    return HTTP.post(this.restUrl("chats"), {
+      headers: { "Content-Type": "application/json" },
+      data: { title: chatName },
+    });
+  }
+
+  deleteChat(chatId: number) {
+    return HTTP.delete(this.restUrl("chats"), {
+      headers: { "Content-Type": "application/json" },
+      data: { chatId },
+    });
+  }
 }
 
 const instance = new ChatsService();

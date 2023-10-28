@@ -4,9 +4,6 @@ import { UserController } from "@app/Controllers/UserController";
 
 import AvatarInputHbs from "./AvatarInput.hbs";
 
-// import { ApiHost } from "../../constants/commonConstants";
-// import { changeAvatar } from "../../services/UsersService";
-
 interface IAvatarInputProps extends Indexed {
  avatarId: string;
 }

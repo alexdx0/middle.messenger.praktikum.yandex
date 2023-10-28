@@ -24,7 +24,6 @@ class AuthService extends BaseApiService {
     return HTTP.post(this.restUrl("auth/signup"), {
       data: { ...user },
       headers: { "Content-Type": "application/json" },
-      // id : 1347115
     });
   }
 

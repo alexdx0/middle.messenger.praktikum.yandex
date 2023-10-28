@@ -4,7 +4,9 @@
   <section class="chat-context-popup">
     {{{ PopupButton icon="add-icon" title="Добавить пользователя" onClick=addUserHandler}}}
     {{{ PopupButton icon="remove-icon" title="Удалить пользователя" onClick=removeUserHandler }}}
-    {{{ PopupButton icon="photo-icon" title="Изменить автар" }}}
+    {{{ PopupButton icon="photo-icon" title="Изменить аватар" onClick=changeAvatarHandler }}}
+    {{{ PopupButton icon="add-icon" title="Добавить чат" onClick=addChatHandler }}}
+    {{{ PopupButton icon="remove-icon" title="Удалить текущий чат" onClick=removeChatHandler }}}
   </section>
   {{/if}}
 </div>

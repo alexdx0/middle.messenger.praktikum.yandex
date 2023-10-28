@@ -33,9 +33,7 @@ export class Router {
 
   start() {
     // Реагируем на изменения в адресной строке и вызываем перерисовку
-    window.onpopstate = (e) => {
-      // TODO нужен путь из эвента
-      console.log(e);
+    window.onpopstate = () => {
       this._onRoute(document.location.pathname);
     };
 

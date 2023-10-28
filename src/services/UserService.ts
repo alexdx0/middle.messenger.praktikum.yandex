@@ -8,13 +8,13 @@ class UserService extends BaseApiService {
   setAvatar(file: File) {
     const formData = new FormData();
     formData.append("avatar", file);
-    return HTTP.put<UserModel>(this.restUrl("user/profile/avatar"), {
+    return HTTP.put<UserWithIdModel>(this.restUrl("user/profile/avatar"), {
       data: formData,
     });
   }
 
   changeUserProfile(user: UserModel) {
-    return HTTP.put<UserModel>(this.restUrl("user/profile"), {
+    return HTTP.put<UserWithIdModel>(this.restUrl("user/profile"), {
       headers: { "Content-Type": "application/json" },
       data: user,
     });

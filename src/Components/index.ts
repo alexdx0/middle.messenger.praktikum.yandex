@@ -21,3 +21,4 @@ export { PopupButton } from "./PopupButton";
 export { ModalCloseButton } from "./ModalCloseButton";
 export { FormSelect } from "./FormSelect";
 export { SimpleSelect } from "./SimpleSelect";
+export { Textarea } from "./Textarea";

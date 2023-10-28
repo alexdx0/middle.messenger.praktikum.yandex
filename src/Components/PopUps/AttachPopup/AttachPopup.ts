@@ -2,6 +2,7 @@ import { Block } from "@Core";
 import { connect } from "@Core/connect";
 import { Indexed } from "@app/types/Indexed";
 import { AppStore } from "@Core/AppStore";
+import { ModalService } from "@app/Modals/ModalService";
 
 import AttachPopupHbs from "./AttachPopup.hbs";
 
@@ -16,6 +17,15 @@ class AttachPopup extends Block<IAttachPopupProps> {
       ...props,
       overlayClickHandler: () => {
         AppStore.set({ isAttachPopupOpened: false });
+      },
+      addPhotoHandler: () => {
+        ModalService.show("info-modal", { message: "Функционал в разработке" });
+      },
+      addFileHandler: () => {
+        ModalService.show("info-modal", { message: "Функционал в разработке" });
+      },
+      addLocationHandler: () => {
+        ModalService.show("info-modal", { message: "Функционал в разработке" });
       },
     });
   }

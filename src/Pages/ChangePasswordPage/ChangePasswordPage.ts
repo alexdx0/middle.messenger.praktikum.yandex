@@ -26,7 +26,6 @@ class ChangePasswordPage extends Block<IChangePasswordPageProps> {
       },
       saveHandler: () => {
         const formData = getFormRefsData(this.refs as Record<keyof UserModel, FormInput>);
-        console.log("formdata", formData);
         UserController.changeUserPassword(formData as unknown as PasswordChangeModel);
       },
       backHandler: () => Router.go("/messenger"),

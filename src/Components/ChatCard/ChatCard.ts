@@ -12,10 +12,9 @@ interface IChatCardProps extends Indexed {
 
 export class ChatCard extends Block<IChatCardProps> {
   constructor(props: IChatCardProps) {
-    console.log("chatcard props", props);
     super({
       ...props,
-      lastMessageTime: formatDateTime(props.chat.last_message.time),
+      lastMessageTime: formatDateTime(props.chat?.last_message?.time),
     });
 
     this.props.events = {

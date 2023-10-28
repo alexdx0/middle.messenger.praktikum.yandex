@@ -11,7 +11,6 @@ interface HttpMethodOptions {
   data?: object;
   timeout?: number;
 }
-// type HttpMethod<Tresp> = (url: string, options?: HttpMethodOptions) => Promise<{status: number, response: Tresp}>;
 type HttpMethodResp<Tresp> = Promise<{status: number, response: Tresp}>;
 
 function queryStringify(data: Record<string, unknown>) {

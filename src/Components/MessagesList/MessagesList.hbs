@@ -21,15 +21,15 @@
   </header>
   <main class="messages-list__content">
     {{#each messages}}
-    {{{ MessageCard whose="his" text=this.content }}}
+    {{{ MessageCard isMine=isMine text=text time=time userName=userName }}}
     {{/each}}
   </main>
   <div>
   </div>
   <footer class="messages-list__footer">
     {{{ AttachButton onClick=attachClickHandler }}}
-    {{{ MessageInput }}}
-    {{{ ArrowButton direction="right" }}}
+    {{{ MessageInput ref="message" }}}
+    {{{ ArrowButton direction="right" onClick=sendHandler }}}
   </footer>
   {{{ ChatContextPopup ref="contextPopup" }}}
   {{{ AttachPopup ref="attachPopup" }}}

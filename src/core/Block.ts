@@ -45,7 +45,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
     const { props } = this._getChildrenAndProps(propsWithChildren);
 
-    // this.children = children as BlockPropsType;
     this.props = this._makePropsProxy(props) as Tprops;
 
     this.eventBus = () => eventBus;
@@ -67,7 +66,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
       }
     });
 
-    // TODO eliminate children
     return { props, children };
   }
 
@@ -109,13 +107,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
   // #region CDU
   public dispatchComponentDidUpdate() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDU);
-    // Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
   }
-
-  // _componentDidUpdate() {
-  //   this.componentDidMount();
-  //   // this._makeUnmountObservable(() => this.dispatchComponentWillUnmount());
-  // }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   componentDidUpdate(_oldProps: Tprops, _newProps: Tprops) {
@@ -129,20 +121,16 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
       }
     }
   }
-
   // #endregion CDU
 
   // #region CDM
   public dispatchComponentDidMount() {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-    // Object.values(this.children).forEach(child => (child as Block).dispatchComponentDidMount());
   }
 
   _componentDidMount() {
     this._isMounted = true;
-    // console.log("set _isMounted = true", this.element!.className);
     this.componentDidMount();
-    // this._makeUnmountObservable(() => this.dispatchComponentWillUnmount());
   }
 
   componentDidMount() {
@@ -151,7 +139,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
   // #region CWU
   public dispatchComponentWillUnmount() {
-    // console.log("block CWU", element);
     this.eventBus().emit(Block.EVENTS.FLOW_CWU);
     Object.values(this.children).forEach(child => (child as Block).dispatchComponentWillUnmount());
   }
@@ -186,7 +173,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
     const newElement = fragment.firstElementChild as HTMLElement;
 
     this._removeEvents();
-    // console.log(this.children);
 
     if (this._element) {
       this._element.replaceWith(newElement);
@@ -202,7 +188,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
     const html = template(contextAndStubs);
 
-    // TODO попробовать переделать на фрагмент
     const temp = document.createElement("template");
 
     temp.innerHTML = html;
@@ -232,7 +217,6 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
           } else {
             this.dispatchComponentDidMount();
           }
-          // this.eventBus().emit(Block.EVENTS.FLOW_CDM);
         }
       }, 100);
     }

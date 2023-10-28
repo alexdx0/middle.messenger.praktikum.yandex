@@ -1,5 +1,5 @@
+import { CardMessageModel } from "@models/CardMessageModel";
 import { ChatModel } from "@models/ChatModel";
-import { MessageModel } from "@models/MessageModel";
 import { UserWithIdModel } from "@models/UserWithIdModel";
 
 export class AppStoreModel {
@@ -18,5 +18,5 @@ export class AppStoreModel {
   /** Токен чата */
   token: string = "";
   /** Сообщения */
-  messages: MessageModel[] = [];
+  messages: CardMessageModel[] = [];
 }

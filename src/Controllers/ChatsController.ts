@@ -44,6 +44,22 @@ class ChatsController {
         return Promise.reject(error);
       });
   }
+
+  addChat(chatName: string) {
+    return ChatsService.addChat(chatName)
+      .catch((error: Error) => {
+        apiErrorHandler(error);
+        return Promise.reject(error);
+      });
+  }
+
+  deleteChat(chatId: number) {
+    return ChatsService.deleteChat(chatId)
+      .catch((error: Error) => {
+        apiErrorHandler(error);
+        return Promise.reject(error);
+      });
+  }
 }
 
 const instance = new ChatsController();

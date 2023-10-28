@@ -1,14 +1,6 @@
 @use '@styles/variables' as v;
 
 .info-modal {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: v.$c-white;
-  height: 100%;
-  width: 100%;
-
   &__message {
     margin: 0 0 20px;
     width: 100%;

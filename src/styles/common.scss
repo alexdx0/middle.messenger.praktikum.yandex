@@ -7,3 +7,14 @@
   padding: 10px;
   cursor: pointer;
 }
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  background-color: v.$c-white;
+  height: 100%;
+  width: 100%;
+}

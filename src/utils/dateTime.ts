@@ -9,8 +9,8 @@ export const formatDate = (value?: Date | string) => {
     return "";
   }
   const date = toDate(value);
-  const day = date.getDate().toString();
-  const month = (date.getMonth() + 1).toString();
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
   return `${day}.${month}.${year}`;
 };
@@ -20,9 +20,9 @@ export const formatTime = (value?: Date | string) => {
     return "";
   }
   const date = toDate(value);
-  const hours = date.getHours().toString();
-  const minutes = date.getMinutes().toString();
-  const seconds = date.getSeconds().toString();
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const seconds = date.getSeconds().toString().padStart(2, "0");
   return `${hours}:${minutes}:${seconds}`;
 };
 

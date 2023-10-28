@@ -3,10 +3,11 @@ import { AppStore } from "@Core/AppStore";
 import { connect } from "@Core/connect";
 import { Indexed } from "@app/types/Indexed";
 import { MouseEventHandler } from "@models/MouseEventHandler";
-import WebSocketTransport from "@Core/WebSocketTransport";
 import { ChatModel } from "@models/ChatModel";
-import { MessageModel } from "@models/MessageModel";
 import { ChatsController } from "@app/Controllers/ChatsController";
+import { WebSocketTransport } from "@Core/WebSocketTransport";
+import { MessageInput } from "@components/MessageInput";
+import { CardMessageModel } from "@models/CardMessageModel";
 
 import MessagesListHbs from "./MessagesList.hbs";
 
@@ -17,51 +18,42 @@ interface IMessagesListProps extends Indexed {
   chat: ChatModel;
   userId: number;
   token: string;
-  messages: MessageModel;
+  messages: CardMessageModel[];
 }
 
 class MessagesList extends Block<IMessagesListProps> {
   constructor(props: IMessagesListProps) {
-    // console.log("MessagesList props", props);
     super({
       ...props,
       menuClickHandler: () => {
         AppStore.set({ isChatContextPopupOpened: true });
-        // Router.go("/error", { code: "500", description: "Мы уже фиксим" });
       },
       attachClickHandler: () => {
-        // Router.go("/error", { code: "500", description: "Мы уже фиксим" });
         AppStore.set({ isAttachPopupOpened: true });
       },
-
+      sendHandler: () => {
+        WebSocketTransport.sendMessage((this.refs.message as MessageInput).value());
+      },
     });
 
     if (props.chat) {
       ChatsController.getChatToken(props.chat.id)
         .then(token => AppStore.set({ token: token.response.token }));
     }
-
-    // this.refs.contextPopup.hide();
-    // this.refs.attachPopup.hide();
-
-    // this.props.messages = [chats[1].last_message];
-    // this.props.title = chats[1].title;
   }
 
   componentDidMount(): void {
-    const updater = (messages: MessageModel[]) => {
-      AppStore.set({ messages });
-    };
-    // eslint-disable-next-line no-new
-    new WebSocketTransport(this.props.userId, this.props.chat.id, this.props.token, updater);
+    const list: HTMLElement | null = document.querySelector(".messages-list__content");
+    if (list) {
+      list.scrollTop = list.scrollHeight;
+    }
   }
 
-  componentDidUpdate(_oldProps: IMessagesListProps, _newProps: IMessagesListProps): void {
-    const updater = (messages: MessageModel[]) => {
-      AppStore.set({ messages });
-    };
-    // eslint-disable-next-line no-new
-    new WebSocketTransport(this.props.userId, this.props.chat.id, this.props.token, updater);
+  componentDidUpdate(): void {
+    setTimeout(() => {
+      const list: HTMLElement | null = document.querySelector(".messages-list__content");
+        list!.scrollTop = list!.scrollHeight;
+    }, 50);
   }
 
   protected render() {

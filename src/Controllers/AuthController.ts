@@ -21,8 +21,7 @@ class AuthController {
 
   signUp(user: userSignUpModel) {
     AuthService.signUp(user)
-      .then((data) => {
-        console.log("data", data);
+      .then(() => {
         this.getUserInfo().then((data) => {
           AppStore.set({ user: data.response });
           Router.go("/settings");
@@ -31,9 +30,6 @@ class AuthController {
       .catch(apiErrorHandler);
   }
 
-  // logout() {
-  //   AuthService.logout();
-  // }
   logout() {
     return AuthService.logout()
       .then(() => Router.go("/"))

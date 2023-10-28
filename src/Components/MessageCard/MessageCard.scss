@@ -7,8 +7,9 @@
   border-radius: 5px;
   padding: 0.5rem;
   max-width: 70%;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.14);
 
-  &_my {
+  &_mine {
     align-self: flex-end;
     background-color: v.$c-card-my;
   }
@@ -16,5 +17,14 @@
   &_his {
     align-self: flex-start;
     background-color: v.$c-card-his;
+  }
+
+  &__user-name {
+    color: v.$c-gray;
+  }
+
+  &__time {
+    font-size: 10px;
+    color: v.$c-gray;
   }
 }

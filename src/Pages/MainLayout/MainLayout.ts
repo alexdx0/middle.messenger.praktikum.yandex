@@ -12,9 +12,6 @@ class MainLayout extends Block<IMainLayoutProps> {
   constructor(props: IMainLayoutProps) {
     super({
       ...props,
-      // test: () => {
-      //   AuthService.getUserInfo().then((data) => console.log(JSON.parse((data as XMLHttpRequest).response)));
-      // },
     });
   }
 

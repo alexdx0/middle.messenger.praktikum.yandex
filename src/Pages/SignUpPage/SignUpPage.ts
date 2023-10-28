@@ -13,30 +13,16 @@ export class SignUpPage extends Block {
     super({
       validateFns,
       signUpHandler: () => {
-        // e.preventDefault();
-        // e.stopPropagation();
-        // formDataLogger(this.refs as Record<string, FormInput>, e);
-        // formDataLogger(this.refs as Record<string, FormInput>, e);
         const formValues = getRefsInputsValues(this.refs as Record<keyof userSignUpModel, FormInput>);
-        // console.log(formValues);
         if (Object.values(formValues).some(x => !x)) {
           return null;
         }
         AuthController.signUp(formValues);
-        // Router.go("/messenger");
       },
       lognHandler() {
         Router.go("/");
       },
     });
-  }
-
-  componentDidMount(): void {
-    console.log("SignUpPage CDM");
-  }
-
-  componentWillUnmount(): void {
-    console.log("SignUpPage CWU");
   }
 
   protected render() {
