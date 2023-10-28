@@ -13,5 +13,6 @@
 
 .arrow-button_left {
   @extend %arrow-button;
+  
   transform: rotate(180deg);
 }

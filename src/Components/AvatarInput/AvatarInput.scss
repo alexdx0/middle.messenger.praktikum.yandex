@@ -4,7 +4,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     width: 130px;
     height: 130px;
     cursor: pointer;
@@ -16,6 +15,7 @@
 
     &__hint-container {
         @extend %avatar;
+        
         text-align: center;
         opacity: 0;
         background-color: v.$c-gray-half;

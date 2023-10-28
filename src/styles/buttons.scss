@@ -2,12 +2,10 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   column-gap: 10px;
   color: v.$c-title;
-
   font-family: monospace;
   font-size: 1rem;
   font-style: normal;
@@ -26,27 +24,32 @@
 
   .add-icon {
     @extend %button-icon;
+
     background-image: url("@assets/icons/plus.svg");
   }
 
   .remove-icon {
     @extend %button-icon;
+
     background-image: url("@assets/icons/plus.svg");
     transform: rotate(45deg);
   }
 
   .photo-icon {
     @extend %button-icon;
+
     background-image: url("@assets/icons/photo.svg");
   }
 
   .file-icon {
     @extend %button-icon;
+
     background-image: url("@assets/icons/file.svg");
   }
 
   .location-icon {
     @extend %button-icon;
+    
     background-image: url("@assets/icons/location.svg");
   }
 }
