@@ -26,27 +26,32 @@
 
   .add-icon {
     @extend %button-icon;
+
     background-image: url("@assets/icons/plus.svg");
   }
 
   .remove-icon {
     @extend %button-icon;
+
     background-image: url("@assets/icons/plus.svg");
     transform: rotate(45deg);
   }
 
   .photo-icon {
     @extend %button-icon;
+
     background-image: url("@assets/icons/photo.svg");
   }
 
   .file-icon {
     @extend %button-icon;
+
     background-image: url("@assets/icons/file.svg");
   }
 
   .location-icon {
     @extend %button-icon;
+    
     background-image: url("@assets/icons/location.svg");
   }
 }

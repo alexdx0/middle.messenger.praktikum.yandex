@@ -16,6 +16,7 @@
 
     &__hint-container {
         @extend %avatar;
+        
         text-align: center;
         opacity: 0;
         background-color: v.$c-gray-half;

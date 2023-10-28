@@ -52,7 +52,9 @@ class MessagesList extends Block<IMessagesListProps> {
   componentDidUpdate(): void {
     setTimeout(() => {
       const list: HTMLElement | null = document.querySelector(".messages-list__content");
-        list!.scrollTop = list!.scrollHeight;
+      if (list) {
+        list.scrollTop = list.scrollHeight;
+      }
     }, 50);
   }
 
