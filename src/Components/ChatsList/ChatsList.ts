@@ -12,7 +12,7 @@ import { UserModel } from "@models/UserModel";
 import ChatsListHbs from "./ChatsList.hbs";
 
 interface IChatsListProps extends Indexed {
-  cahts: ChatModel;
+  cahts: ChatModel[];
   chatSelectHandler: (chat: ChatModel) => void;
   currentChat: ChatModel;
   user: UserModel;
@@ -31,7 +31,7 @@ class ChatsList extends Block<IChatsListProps> {
               ChatsController.getChatUsers(chat.id)
                 .then(({ response: users }) => {
                   const updater = (messages: MessageModel[]) => {
-                    const newMessages = messages.reverse().map(message => ({
+                    const newMessages = messages.map(message => ({
                       userName: users.find(user => user.id === message.user_id)?.login as string,
                       text: message.content,
                       time: formatDateTime(message.time),
@@ -53,5 +53,5 @@ class ChatsList extends Block<IChatsListProps> {
   }
 }
 
-const instance = connect(({ currentChat, user }) => ({ currentChat, user }))(ChatsList);
+const instance = connect(({ currentChat, user, chats }) => ({ currentChat, user, chats }))(ChatsList);
 export { instance as ChatsList };

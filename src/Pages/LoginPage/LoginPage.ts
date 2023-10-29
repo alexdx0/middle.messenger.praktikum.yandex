@@ -28,7 +28,10 @@ class LoginPage extends Block {
           return null;
         }
         AuthController.signIn(formValues.login, formValues.password)
-          .then(() => Router.go("/messenger"));
+          .then(() => {
+            AuthController.getUserInfo();
+            Router.go("/messenger");
+          });
       },
     });
   }
