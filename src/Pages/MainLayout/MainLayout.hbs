@@ -1,7 +1,8 @@
 <main class="main-layout">
   <div class="left-side">
     {{{ Link title="Профиль >" className="link-to-profile" to="/settings" }}}
-    {{{ ChatsList chats=chats }}}
+    {{{ PopupButton class="add-chat-button" icon="add-icon" title="Добавить чат" onClick=addChatHandler }}}
+    {{{ ChatsList }}}
   </div>
   <div class="right-side">
     {{{ MessagesList }}}
