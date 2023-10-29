@@ -42,22 +42,6 @@ class MessagesList extends Block<IMessagesListProps> {
     }
   }
 
-  componentDidMount(): void {
-    const list: HTMLElement | null = document.querySelector(".messages-list__content");
-    if (list) {
-      list.scrollTop = list.scrollHeight;
-    }
-  }
-
-  componentDidUpdate(): void {
-    setTimeout(() => {
-      const list: HTMLElement | null = document.querySelector(".messages-list__content");
-      if (list) {
-        list.scrollTop = list.scrollHeight;
-      }
-    }, 50);
-  }
-
   protected render() {
     return MessagesListHbs;
   }
