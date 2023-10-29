@@ -6,13 +6,13 @@ import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 class AuthController {
   getUserInfo() {
-    return AuthService.getUserInfo();
+    return AuthService.getUserInfo()
+      .then((data) => AppStore.set({ user: data.response }));
   }
 
   signIn(login: string, password: string) {
     return AuthService.signIn(login, password)
       .then(() => this.getUserInfo())
-      .then((data) => AppStore.set({ user: data.response }))
       .catch((error: Error) => {
         apiErrorHandler(error);
         return Promise.reject(error);
@@ -22,10 +22,8 @@ class AuthController {
   signUp(user: userSignUpModel) {
     AuthService.signUp(user)
       .then(() => {
-        this.getUserInfo().then((data) => {
-          AppStore.set({ user: data.response });
-          Router.go("/settings");
-        });
+        this.getUserInfo();
+        Router.go("/messenger");
       })
       .catch(apiErrorHandler);
   }
