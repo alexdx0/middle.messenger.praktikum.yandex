@@ -38,9 +38,9 @@ class ChatsList extends Block<IChatsListProps> {
                       isMine: message.user_id === props.user?.id,
                     }));
 
-                    AppStore.set({ messages: [...AppStore.getState().messages, ...newMessages] });
+                    AppStore.set({ messages: [...newMessages, ...AppStore.getState().messages] });
                   };
-                  WebSocketTransport.connect(1347111, chat.id, token.response.token, updater);
+                  WebSocketTransport.connect(props.user.id, chat.id, token.response.token, updater);
                 });
             });
         }
