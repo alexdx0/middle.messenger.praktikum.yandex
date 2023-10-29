@@ -31,7 +31,7 @@ class ChatsList extends Block<IChatsListProps> {
               ChatsController.getChatUsers(chat.id)
                 .then(({ response: users }) => {
                   const updater = (messages: MessageModel[]) => {
-                    const newMessages = messages.reverse().map(message => ({
+                    const newMessages = messages.map(message => ({
                       userName: users.find(user => user.id === message.user_id)?.login as string,
                       text: message.content,
                       time: formatDateTime(message.time),
