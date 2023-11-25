@@ -5,6 +5,7 @@ import { getRefsInputsValues } from "@utils/getRefsInputsValues";
 import { userSignUpModel } from "@models/userSignUpModel";
 import { AuthController } from "@app/Controllers/AuthController";
 import { Router } from "@app/appRouting";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import SignUpPageHbs from "./SignUpPage.hbs";
 
@@ -17,7 +18,8 @@ export class SignUpPage extends Block {
         if (Object.values(formValues).some(x => !x)) {
           return null;
         }
-        AuthController.signUp(formValues);
+        AuthController.signUp(formValues)
+          .catch(apiErrorHandler);
       },
       lognHandler() {
         Router.go("/");

@@ -6,6 +6,7 @@ import { ChatsController } from "@app/Controllers/ChatsController";
 import { connect } from "@Core/connect";
 import { Indexed } from "@app/types/Indexed";
 import { ChatModel } from "@models/ChatModel";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import AddUserModalHbs from "./AddUserModal.hbs";
 
@@ -20,8 +21,10 @@ class AddUserModal extends Block<IAddUserModalProps> {
       addHandler: () => {
         UserController.searchUser((this.refs.login as FormInput).value() as string)
           .then(users => {
-            ChatsController.addUserToChat({ chatId: this.props.currentChat.id, users: [users[0].id] });
-          });
+            ChatsController.addUserToChat({ chatId: this.props.currentChat.id, users: [users[0].id] })
+              .catch(apiErrorHandler);
+          })
+          .catch(apiErrorHandler);
 
         ModalService.close("add-user-modal");
       },

@@ -6,6 +6,7 @@ import { AuthController } from "@app/Controllers/AuthController";
 import { getRefsInputsValues } from "@utils/getRefsInputsValues";
 import { connect } from "@Core/connect";
 import { AppStore } from "@Core/AppStore";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import LoginPageHbs from "./LoginPage.hbs";
 
@@ -31,7 +32,8 @@ class LoginPage extends Block {
           .then(() => {
             AuthController.getUserInfo();
             Router.go("/messenger");
-          });
+          })
+          .catch(apiErrorHandler);
       },
     });
   }

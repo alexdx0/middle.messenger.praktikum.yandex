@@ -6,6 +6,7 @@ import { Indexed } from "@app/types/Indexed";
 import { ChatModel } from "@models/ChatModel";
 import { SelectOption } from "@components/SimpleSelect/SimpleSelect";
 import { FormSelect } from "@components/FormSelect";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import RemoveUserModalHbs from "./RemoveUserModal.hbs";
 
@@ -22,7 +23,9 @@ class RemoveUserModal extends Block<IRemoveUserModalProps> {
         ChatsController.deleteChatUsers({
           chatId: this.props.currentChat.id,
           users: [parseInt((this.refs.select as FormSelect).value(), 10)],
-        });
+        })
+          .catch(apiErrorHandler);
+
         ModalService.close("remove-user-modal");
       },
       closeHandler: () => {
@@ -32,9 +35,11 @@ class RemoveUserModal extends Block<IRemoveUserModalProps> {
   }
 
   componentDidMount(): void {
-    ChatsController.getChatUsers(this.props.currentChat.id).then(users => {
-      this.props.users = users.response.map(user => ({ title: user.first_name, value: user.id }));
-    });
+    ChatsController.getChatUsers(this.props.currentChat.id)
+      .then(users => {
+        this.props.users = users.response.map(user => ({ title: user.first_name, value: user.id }));
+      })
+      .catch(apiErrorHandler);
   }
 
   protected render() {

@@ -8,6 +8,7 @@ import { MessageModel } from "@models/MessageModel";
 import { connect } from "@Core/connect";
 import { formatDateTime } from "@utils/dateTime";
 import { UserModel } from "@models/UserModel";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import ChatsListHbs from "./ChatsList.hbs";
 
@@ -54,8 +55,10 @@ class ChatsList extends Block<IChatsListProps> {
               AppStore.set({ messages: [...newMessages, ...AppStore.getState().messages] });
             };
             WebSocketTransport.connect(this.props.user.id, chat.id, token.response.token, updater);
-          });
-      });
+          })
+          .catch(apiErrorHandler);
+      })
+      .catch(apiErrorHandler);
   }
 
   protected render() {
