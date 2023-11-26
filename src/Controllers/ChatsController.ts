@@ -1,64 +1,39 @@
 import { AppStore } from "@Core/AppStore";
 import { AddUsersToChatModel } from "@models/AddUserToChatModel";
 import { ChatsService } from "@services/ChatsService";
-import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 class ChatsController {
   getChats() {
     return ChatsService.getChats()
-      .then((data) => AppStore.set({ chats: data.response }))
-      .catch((error: Error) => {
-        apiErrorHandler(error);
-        return Promise.reject(error);
-      });
+      .then((data) => AppStore.set({ chats: data.response }));
   }
 
   addUserToChat(data: AddUsersToChatModel) {
-    return ChatsService.addUsersToChat(data)
-      .catch((error: Error) => {
-        apiErrorHandler(error);
-        return Promise.reject(error);
-      });
+    return ChatsService.addUsersToChat(data);
   }
 
   getChatUsers(chatId: number) {
-    return ChatsService.getChatUsers(chatId)
-      .catch((error: Error) => {
-        apiErrorHandler(error);
-        return Promise.reject(error);
-      });
+    return ChatsService.getChatUsers(chatId);
   }
 
   deleteChatUsers(data: AddUsersToChatModel) {
-    return ChatsService.deleteChatUsers(data)
-      .catch((error: Error) => {
-        apiErrorHandler(error);
-        return Promise.reject(error);
-      });
+    return ChatsService.deleteChatUsers(data);
   }
 
   getChatToken(chatId: number) {
-    return ChatsService.getChatToken(chatId)
-      .catch((error: Error) => {
-        apiErrorHandler(error);
-        return Promise.reject(error);
-      });
+    return ChatsService.getChatToken(chatId);
   }
 
   addChat(chatName: string) {
-    return ChatsService.addChat(chatName)
-      .catch((error: Error) => {
-        apiErrorHandler(error);
-        return Promise.reject(error);
-      });
+    return ChatsService.addChat(chatName);
   }
 
   deleteChat(chatId: number) {
-    return ChatsService.deleteChat(chatId)
-      .catch((error: Error) => {
-        apiErrorHandler(error);
-        return Promise.reject(error);
-      });
+    return ChatsService.deleteChat(chatId);
+  }
+
+  setAvatar(chatId: number, file: File) {
+    return ChatsService.setAvatar(chatId, file);
   }
 }
 

@@ -3,13 +3,13 @@ import { ChatModel } from "@models/ChatModel";
 import { TokenModel } from "@models/TokenModel";
 import { UserWithIdModel } from "@models/UserWithIdModel";
 import { BaseApiService } from "@services/BaseApiService";
-import { HTTP } from "@utils/HttpTransport";
+import { HTTP, HttpMethodResp } from "@utils/HttpTransport";
 
 class ChatsService extends BaseApiService {
   getChats() {
-    return HTTP.get<ChatModel[]>(this.restUrl("chats"), {
+    return HTTP.get(this.restUrl("chats"), {
       headers: { "Content-Type": "application/json" },
-    });
+    }) as HttpMethodResp<ChatModel[]>;
   }
 
   addUsersToChat(data: AddUsersToChatModel) {
@@ -20,9 +20,9 @@ class ChatsService extends BaseApiService {
   }
 
   getChatUsers(chatId: number) {
-    return HTTP.get<UserWithIdModel[]>(this.restUrl(`chats/${chatId}/users`), {
+    return HTTP.get(this.restUrl(`chats/${chatId}/users`), {
       headers: { "Content-Type": "application/json" },
-    });
+    }) as HttpMethodResp<UserWithIdModel[]>;
   }
 
   deleteChatUsers(data: AddUsersToChatModel) {
@@ -33,9 +33,9 @@ class ChatsService extends BaseApiService {
   }
 
   getChatToken(chatId: number) {
-    return HTTP.post<TokenModel>(this.restUrl(`chats/token/${chatId}`), {
+    return HTTP.post(this.restUrl(`chats/token/${chatId}`), {
       headers: { "Content-Type": "application/json" },
-    });
+    }) as HttpMethodResp<TokenModel>;
   }
 
   addChat(chatName: string) {
@@ -50,6 +50,15 @@ class ChatsService extends BaseApiService {
       headers: { "Content-Type": "application/json" },
       data: { chatId },
     });
+  }
+
+  setAvatar(chatId: number, file: File) {
+    const formData = new FormData();
+    formData.append("avatar", file);
+    formData.append("chatId", chatId.toString());
+    return HTTP.put(this.restUrl("chats/avatar"), {
+      data: formData,
+    }) as HttpMethodResp<ChatModel>;
   }
 }
 

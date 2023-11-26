@@ -8,6 +8,7 @@ import { UserModel } from "@models/UserModel";
 import { UserController } from "@app/Controllers/UserController";
 import { getFormRefsData } from "@utils/getFormRefsData";
 import { AuthController } from "@app/Controllers/AuthController";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import ProfilePageHbs from "./ProfilePage.hbs";
 
@@ -23,10 +24,11 @@ class ProfilePage extends Block<IProfilePageProps> {
       validateFns,
       saveHandler: () => {
         const formData = getFormRefsData(this.refs as Record<keyof UserModel, FormInput>);
-        UserController.changeUserProfile(formData as unknown as UserModel);
+        UserController.changeUserProfile(formData as unknown as UserModel)
+          .catch(apiErrorHandler);
       },
       logoutHandler: () => {
-        AuthController.logout();
+        AuthController.logout().catch(apiErrorHandler);
       },
       changePasswordHandler: () => {
         Router.go("/change-password");

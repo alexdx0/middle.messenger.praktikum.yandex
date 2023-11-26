@@ -11,10 +11,16 @@ interface HttpMethodOptions {
   data?: object;
   timeout?: number;
 }
-type HttpMethodResp<Tresp> = Promise<{status: number, response: Tresp}>;
+
+export type HttpMethodResp<Tresp> = Promise<{ status: number, response: Tresp }>;
+
+type HTTPTransportMethod<Tresp = unknown> =
+  (url: string, options: HttpMethodOptions, timeout?: number) => HttpMethodResp<Tresp>
 
 function queryStringify(data: Record<string, unknown>) {
-  return "?" + Object.keys(data).map((key) => key + "=" + data[key]).join("&");
+  return !data
+    ? ""
+    : "?" + Object.keys(data).map((key) => key + "=" + data[key]).join("&");
 }
 
 const defaultHttpOptions: HttpMethodOptions = {
@@ -25,27 +31,29 @@ const defaultHttpOptions: HttpMethodOptions = {
 };
 
 class HTTPTransport {
-  get<Tresp>(url: string, options: HttpMethodOptions = defaultHttpOptions): HttpMethodResp<Tresp> {
-    return this.request<Tresp>(url, { ...options, method: HttpMethodsEnum.GET }, options.timeout);
-  }
+  get: HTTPTransportMethod = (url, options = defaultHttpOptions) => {
+    return this.request(
+      `${url}${queryStringify(options.data as Record<string, unknown>)}`,
+      { ...options, method: HttpMethodsEnum.GET }, options.timeout);
+  };
 
-  post<Tresp>(url: string, options: HttpMethodOptions = defaultHttpOptions): HttpMethodResp<Tresp> {
+  post: HTTPTransportMethod = (url, options = defaultHttpOptions) => {
     return this.request(url,
       {
         ...Object.assign(defaultHttpOptions, options),
         method: HttpMethodsEnum.POST,
       }, options.timeout);
-  }
+  };
 
-  put<Tresp>(url: string, options: HttpMethodOptions = defaultHttpOptions): HttpMethodResp<Tresp> {
+  put: HTTPTransportMethod = (url, options = defaultHttpOptions) => {
     return this.request(url, { ...options, method: HttpMethodsEnum.PUT }, options.timeout);
-  }
+  };
 
-  delete<Tresp>(url: string, options: HttpMethodOptions = defaultHttpOptions): HttpMethodResp<Tresp> {
+  delete: HTTPTransportMethod = (url, options = defaultHttpOptions) => {
     return this.request(url, { ...options, method: HttpMethodsEnum.DELETE }, options.timeout);
-  }
+  };
 
-  request = <Tresp>(url: string, options: HttpMethodOptions, timeout = 1000): HttpMethodResp<Tresp> => {
+  request: HTTPTransportMethod = (url, options, timeout = 1000) => {
     const { headers = {}, method, data } = options;
 
     return new Promise(function(resolve, reject) {
@@ -58,12 +66,7 @@ class HTTPTransport {
       xhr.withCredentials = true;
       const isGet = method === HttpMethodsEnum.GET;
 
-      xhr.open(
-        method,
-        isGet && !!data
-          ? `${url}${queryStringify(data as Record<string, unknown>)}`
-          : url
-      );
+      xhr.open(method, url);
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);

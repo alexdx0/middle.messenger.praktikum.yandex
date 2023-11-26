@@ -4,6 +4,7 @@ import { connect } from "@Core/connect";
 import { ChatsController } from "@app/Controllers/ChatsController";
 import { AuthController } from "@app/Controllers/AuthController";
 import { ModalService } from "@app/Modals/ModalService";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import MainLayoutHbs from "./MainLayout.hbs";
 
@@ -21,8 +22,8 @@ class MainLayout extends Block<IMainLayoutProps> {
   }
 
   componentDidMount(): void {
-    ChatsController.getChats();
-    AuthController.getUserInfo();
+    ChatsController.getChats().catch(apiErrorHandler);
+    AuthController.getUserInfo().catch(apiErrorHandler);
   }
 
   protected render() {

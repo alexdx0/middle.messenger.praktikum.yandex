@@ -8,6 +8,7 @@ import { ChatsController } from "@app/Controllers/ChatsController";
 import { WebSocketTransport } from "@Core/WebSocketTransport";
 import { MessageInput } from "@components/MessageInput";
 import { CardMessageModel } from "@models/CardMessageModel";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import MessagesListHbs from "./MessagesList.hbs";
 
@@ -32,13 +33,17 @@ class MessagesList extends Block<IMessagesListProps> {
         AppStore.set({ isAttachPopupOpened: true });
       },
       sendHandler: () => {
-        WebSocketTransport.sendMessage((this.refs.message as MessageInput).value());
+        if ((this.refs.message as MessageInput).value()) {
+          // Сообщение отправляется только тогда, когда оно введено
+          WebSocketTransport.sendMessage((this.refs.message as MessageInput).value());
+        }
       },
     });
 
     if (props.chat) {
       ChatsController.getChatToken(props.chat.id)
-        .then(token => AppStore.set({ token: token.response.token }));
+        .then(token => AppStore.set({ token: token.response.token }))
+        .catch(apiErrorHandler);
     }
   }
 

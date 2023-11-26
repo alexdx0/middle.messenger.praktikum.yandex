@@ -1,4 +1,5 @@
 import { MessageModel } from "@models/MessageModel";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 import { isDev } from "@utils/isDev";
 
 class WebSocketTransport {
@@ -23,12 +24,16 @@ class WebSocketTransport {
 
     // На получение новых сообщений
     this._socket?.addEventListener("message", (event) => {
-      const parsedData = JSON.parse(event.data);
-      const messageType = JSON.parse(event.data).type;
-      if (!this._updater || messageType === "pong" || messageType === "user connected") {
-        return;
+      try {
+        const parsedData = JSON.parse(event.data);
+        const messageType = parsedData.type;
+        if (!this._updater || messageType === "pong" || messageType === "user connected") {
+          return;
+        }
+        this._updater(Array.isArray(parsedData) ? parsedData : [parsedData]);
+      } catch (error) {
+        apiErrorHandler(error as Error);
       }
-      this._updater(Array.isArray(parsedData) ? parsedData : [parsedData]);
     });
 
     // На закрытие соединения
