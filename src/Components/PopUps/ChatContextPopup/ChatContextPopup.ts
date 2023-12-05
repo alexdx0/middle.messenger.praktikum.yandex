@@ -5,6 +5,7 @@ import { Indexed } from "@app/types/Indexed";
 import { ModalService } from "@app/Modals/ModalService";
 import { ChatsController } from "@app/Controllers/ChatsController";
 import { ChatModel } from "@models/ChatModel";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import ChatContextPopupHbs from "./ChatContextPopup.hbs";
 
@@ -30,7 +31,31 @@ class ChatContextPopup extends Block<IChatContextPopupProps> {
         ModalService.show("remove-user-modal", null);
       },
       changeAvatarHandler: () => {
-        ModalService.show("info-modal", { message: "Функционал в разработке" });
+        const avatarInput = document.getElementById("avatar-input");
+        if (avatarInput) {
+          avatarInput.click();
+          avatarInput.onchange = (e: Event) => {
+            const filesList = (e.target as HTMLInputElement)?.files ?? [];
+            const chatId = AppStore.getState().currentChat!.id;
+            ChatsController.setAvatar(chatId, filesList[0])
+              .then((data) => {
+                const store = AppStore.getState();
+                const storeChats = store.chats;
+                const chatIndex = storeChats.findIndex(chat => chat.id === chatId);
+                storeChats.splice(chatIndex, 1, {
+                  ...storeChats[chatIndex],
+                  avatar: data.response.avatar,
+                });
+                // Изменение аватара текущего чата и в списке чатов
+                AppStore.set({
+                  chats: storeChats,
+                  currentChat: { ...store.currentChat, avatar: data.response.avatar } as ChatModel,
+                });
+              })
+              .catch(apiErrorHandler)
+              .finally(() => AppStore.set({ isChatContextPopupOpened: false }));
+          };
+        }
       },
       addChatHandler: () => {
         ModalService.show("add-chat-modal", null);
@@ -40,7 +65,8 @@ class ChatContextPopup extends Block<IChatContextPopupProps> {
           .then(() => {
             AppStore.set({ isChatContextPopupOpened: false, currentChat: undefined });
             ChatsController.getChats();
-          });
+          })
+          .catch(apiErrorHandler);
       },
     });
   }

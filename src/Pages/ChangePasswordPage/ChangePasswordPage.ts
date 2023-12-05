@@ -8,6 +8,7 @@ import { UserModel } from "@models/UserModel";
 import { UserController } from "@app/Controllers/UserController";
 import { getFormRefsData } from "@utils/getFormRefsData";
 import { PasswordChangeModel } from "@models/PasswordChangeModel";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import ChangePasswordPageHbs from "./ChangePasswordPage.hbs";
 
@@ -26,7 +27,8 @@ class ChangePasswordPage extends Block<IChangePasswordPageProps> {
       },
       saveHandler: () => {
         const formData = getFormRefsData(this.refs as Record<keyof UserModel, FormInput>);
-        UserController.changeUserPassword(formData as unknown as PasswordChangeModel);
+        UserController.changeUserPassword(formData as unknown as PasswordChangeModel)
+          .catch(apiErrorHandler);
       },
       backHandler: () => Router.go("/messenger"),
     });

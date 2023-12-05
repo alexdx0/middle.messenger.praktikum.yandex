@@ -2,38 +2,38 @@ import { PasswordChangeModel } from "@models/PasswordChangeModel";
 import { UserModel } from "@models/UserModel";
 import { UserWithIdModel } from "@models/UserWithIdModel";
 import { BaseApiService } from "@services/BaseApiService";
-import { HTTP } from "@utils/HttpTransport";
+import { HTTP, HttpMethodResp } from "@utils/HttpTransport";
 
 class UserService extends BaseApiService {
   setAvatar(file: File) {
     const formData = new FormData();
     formData.append("avatar", file);
-    return HTTP.put<UserWithIdModel>(this.restUrl("user/profile/avatar"), {
+    return HTTP.put(this.restUrl("user/profile/avatar"), {
       data: formData,
-    });
+    }) as HttpMethodResp<UserWithIdModel>;
   }
 
   changeUserProfile(user: UserModel) {
-    return HTTP.put<UserWithIdModel>(this.restUrl("user/profile"), {
+    return HTTP.put(this.restUrl("user/profile"), {
       headers: { "Content-Type": "application/json" },
       data: user,
-    });
+    }) as HttpMethodResp<UserWithIdModel>;
   }
 
   changeUserPassword(data: PasswordChangeModel) {
-    return HTTP.put<UserModel>(this.restUrl("user/password"), {
+    return HTTP.put(this.restUrl("user/password"), {
       headers: { "Content-Type": "application/json" },
       data,
-    });
+    }) as HttpMethodResp<UserModel>;
   }
 
   searchUser(login: string) {
-    return HTTP.post<UserWithIdModel[]>(this.restUrl("user/search"), {
+    return HTTP.post(this.restUrl("user/search"), {
       headers: { "Content-Type": "application/json" },
       data: {
         login,
       },
-    });
+    }) as HttpMethodResp<UserWithIdModel[]>;
   }
 }
 

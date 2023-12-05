@@ -1,13 +1,13 @@
 import { UserWithIdModel } from "@models/UserWithIdModel";
 import { userSignUpModel } from "@models/userSignUpModel";
 import { BaseApiService } from "@services/BaseApiService";
-import { HTTP } from "@utils/HttpTransport";
+import { HTTP, HttpMethodResp } from "@utils/HttpTransport";
 
 class AuthService extends BaseApiService {
   getUserInfo() {
-    return HTTP.get<UserWithIdModel>(this.restUrl("auth/user"), {
+    return HTTP.get(this.restUrl("auth/user"), {
       headers: { "Content-Type": "application/json" },
-    });
+    }) as HttpMethodResp<UserWithIdModel>;
   }
 
   signIn(login: string, password: string) {

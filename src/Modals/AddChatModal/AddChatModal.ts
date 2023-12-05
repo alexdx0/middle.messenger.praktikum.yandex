@@ -6,6 +6,7 @@ import { connect } from "@Core/connect";
 import { Indexed } from "@app/types/Indexed";
 import { ChatModel } from "@models/ChatModel";
 import { AppStore } from "@Core/AppStore";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import AddChatModalHbs from "./AddChatModal.hbs";
 
@@ -19,7 +20,9 @@ class AddChatModal extends Block<IAddChatModalProps> {
       ...props,
       addHandler: () => {
         ChatsController.addChat((this.refs.name as FormInput).value() as string)
-          .then(() => ChatsController.getChats());
+          .then(() => ChatsController.getChats())
+          .catch(apiErrorHandler);
+
         AppStore.set({ isChatContextPopupOpened: false });
         ModalService.close("add-chat-modal");
       },
