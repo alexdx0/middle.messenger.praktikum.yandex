@@ -1,7 +1,7 @@
 import { UserWithIdModel } from "@models/UserWithIdModel";
 import { userSignUpModel } from "@models/userSignUpModel";
 import { BaseApiService } from "@services/BaseApiService";
-import { HTTP, HttpMethodResp } from "@utils/HttpTransport";
+import { HTTP, HttpMethodResp } from "@Core/HttpTransport";
 
 class AuthService extends BaseApiService {
   getUserInfo() {

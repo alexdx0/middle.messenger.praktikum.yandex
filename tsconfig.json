@@ -15,7 +15,9 @@
       "types/"
     ],
     "types": [
-      "vite/client"
+      "vite/client",
+      "mocha", 
+      "node"
     ],
     "baseUrl": ".",
     "moduleResolution": "bundler",
@@ -30,6 +32,12 @@
     "noUnusedParameters": true,
     "sourceMap": true,
     "strictNullChecks": true
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true,
+    "require": ["tsconfig-paths/register"]
   },
   "include": [
     "src/**/*.ts",

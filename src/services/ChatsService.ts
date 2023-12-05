@@ -3,7 +3,7 @@ import { ChatModel } from "@models/ChatModel";
 import { TokenModel } from "@models/TokenModel";
 import { UserWithIdModel } from "@models/UserWithIdModel";
 import { BaseApiService } from "@services/BaseApiService";
-import { HTTP, HttpMethodResp } from "@utils/HttpTransport";
+import { HTTP, HttpMethodResp } from "@Core/HttpTransport";
 
 class ChatsService extends BaseApiService {
   getChats() {

@@ -2,7 +2,7 @@ import { PasswordChangeModel } from "@models/PasswordChangeModel";
 import { UserModel } from "@models/UserModel";
 import { UserWithIdModel } from "@models/UserWithIdModel";
 import { BaseApiService } from "@services/BaseApiService";
-import { HTTP, HttpMethodResp } from "@utils/HttpTransport";
+import { HTTP, HttpMethodResp } from "@Core/HttpTransport";
 
 class UserService extends BaseApiService {
   setAvatar(file: File) {
