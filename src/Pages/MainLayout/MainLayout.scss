@@ -13,7 +13,7 @@
   flex-direction: column;
   flex: 1 1;
   background: v.$c-background-gray;
-  border-right: 1px solid #EAEAEA;
+  border-right: 1px solid v.$c-border;
   padding: 0 10px;
 }
 
@@ -22,4 +22,9 @@
   flex-direction: column;
   flex: 1 1;
   background: v.$c-white;
+}
+
+.add-chat-button {
+  align-self: center;
+  margin-bottom: 1rem;
 }

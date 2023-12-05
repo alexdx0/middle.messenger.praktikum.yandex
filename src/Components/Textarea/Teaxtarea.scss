@@ -1,0 +1,15 @@
+@use '@styles/variables' as v;
+
+.text-area {
+  outline: none;
+  border: none;
+  background-color: v.$c-light-gray;
+  color: v.$c-title;
+  border-radius: 10px;
+  width: 100%;
+  line-height: 1.2rem;
+  font-size: 1rem;
+  resize: none;
+  overflow: hidden;
+  padding: 5px;
+}

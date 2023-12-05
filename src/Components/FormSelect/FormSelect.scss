@@ -1,0 +1,35 @@
+@use '@styles/variables' as v;
+
+.form-select {
+  position: relative;
+
+  hr {
+    border: none;
+    border-bottom: 1px solid v.$c-blue;
+    width: 100%;
+    margin: 0;
+    margin-top: -5px;
+  }
+
+  &__title {
+    color: v.$c-gray;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    cursor: default;
+  }
+
+  &__select {
+    position: relative;
+    outline: none;
+    border: none;
+    color: v.$c-title;
+    font-style: normal;
+    font-weight: 500;
+    background-color: transparent;
+    line-height: 2rem;
+    font-size: 1rem;
+    width: 100%;
+  }
+}

@@ -1,21 +1,40 @@
 import { Block } from "@Core";
 import { validateFns } from "@utils/validateFns";
-import { formDataLogger } from "@utils/formDataLogger";
 import { FormInput } from "@components/FormInput";
+import { Router } from "@app/appRouting";
+import { connect } from "@Core/connect";
+import { Indexed } from "@app/types/Indexed";
+import { UserModel } from "@models/UserModel";
+import { UserController } from "@app/Controllers/UserController";
+import { getFormRefsData } from "@utils/getFormRefsData";
+import { AuthController } from "@app/Controllers/AuthController";
+import { apiErrorHandler } from "@utils/apiErrorHandler";
 
 import ProfilePageHbs from "./ProfilePage.hbs";
 
-interface IProfilePageProps {
-  [key: string]: unknown;
+interface IProfilePageProps extends Indexed {
   edit: boolean;
+  user: UserModel;
 }
 
-export class ProfilePage extends Block<IProfilePageProps> {
+class ProfilePage extends Block<IProfilePageProps> {
   constructor(props: IProfilePageProps) {
     super({
       ...props,
       validateFns,
-      onSave: (e: MouseEvent) => formDataLogger(this.refs as Record<string, FormInput>, e),
+      saveHandler: () => {
+        const formData = getFormRefsData(this.refs as Record<keyof UserModel, FormInput>);
+        UserController.changeUserProfile(formData as unknown as UserModel)
+          .catch(apiErrorHandler);
+      },
+      logoutHandler: () => {
+        AuthController.logout().catch(apiErrorHandler);
+      },
+      changePasswordHandler: () => {
+        Router.go("/change-password");
+      },
+      backHandler: () => Router.go("/messenger"),
+      editProfileHandler: () => Router.go("/settings", { edit: true }),
     });
   }
 
@@ -23,3 +42,6 @@ export class ProfilePage extends Block<IProfilePageProps> {
     return ProfilePageHbs;
   }
 }
+
+const instance = connect(({ user }) => ({ user }))(ProfilePage);
+export { instance as ProfilePage };

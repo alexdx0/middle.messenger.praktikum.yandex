@@ -8,21 +8,13 @@
   cursor: pointer;
 }
 
-%arrow-button {
-  background-image: url("@assets/icons/arrowButton.svg");
-  width: 40px;
-  height: 40px;
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: pointer;
-}
-
-.arrow-button_right {
-  @extend %arrow-button;
-}
-
-.arrow-button_left {
-  @extend %arrow-button;
-
-  transform: rotate(180deg);
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  background-color: v.$c-white;
+  height: 100%;
+  width: 100%;
 }

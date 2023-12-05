@@ -1,11 +1,10 @@
 <main class="login-page">
   <form class="login-form" action="">
     <span class="login-form__title">Вход</span>
-    {{{ FormInput title="Логин" value="IVAN" name="login" ref="login" validateFn=validateFns.login }}}
-    {{{ FormInput title="Пароль" value="1234567A" name="password" ref="password" type="text"
-    validateFn=validateFns.password }}}
+    {{{ FormInput title="Логин" name="login" ref="login" validateFn=validateFns.login }}}
+    {{{ FormInput title="Пароль" name="password" ref="password" type="text" validateFn=validateFns.password }}}
     <br>
-    {{{ FormButton title="Авторизоваться" linkTo="MainLayout" onClick=onLogin }}}
-    {{{ FormButton title="Нет аккаунта?" transparent=true }}}
+    {{{ FormButton title="Авторизоваться" onClick=loginHandler }}}
+    {{{ FormButton title="Нет аккаунта?" transparent=true onClick=noAccountHandler }}}
   </form>
 </main>

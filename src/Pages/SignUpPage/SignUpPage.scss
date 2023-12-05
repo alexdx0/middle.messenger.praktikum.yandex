@@ -1,0 +1,32 @@
+@use '@styles/variables' as v;
+
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: v.$c-white;
+  height: 100%;
+  width: 100%;
+
+  .signup-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    border-radius: 12px;
+    background: v.$c-white;
+    box-shadow: 0 0 6px 0 rgb(0 0 0 / 14%);
+    padding: 3rem;
+    max-width: min-content;
+
+    &__title {
+      margin-bottom: 2rem;
+      color: v.$c-title;
+      text-align: center;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      cursor: default;
+    }
+  }
+}

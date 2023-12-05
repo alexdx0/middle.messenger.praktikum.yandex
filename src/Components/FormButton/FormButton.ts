@@ -1,12 +1,11 @@
 import { Block } from "@Core";
+import { Indexed } from "@app/types/Indexed";
 
 import FormButtonHbs from "./FormButton.hbs";
 
-interface IFormButtonProps {
-  [key: string]: unknown;
+interface IFormButtonProps extends Indexed {
   title: string;
   transparent: boolean;
-  linkTo: string;
   onClick: () => void;
 }
 

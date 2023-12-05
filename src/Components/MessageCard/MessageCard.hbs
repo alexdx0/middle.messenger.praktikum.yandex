@@ -1,6 +1,11 @@
-<div class="message-card message-card_{{whose}}">
-  <div class="message-card__text">
-  {{text}}
+<div {{#if isMine}}class="message-card message-card_mine"{{else}}class="message-card message-card_his"{{/if}}>
+  <div class="message-card__user-name">
+    {{userName}}
   </div>
-  <div class="message-card__time"></div>
+  <div class="message-card__text">
+    {{text}}
+  </div>
+  <div class="message-card__time">
+    {{time}}
+  </div>
 </div>

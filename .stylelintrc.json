@@ -2,6 +2,7 @@
   "extends": "stylelint-config-standard-scss",
   "rules": {
     "selector-class-pattern": null,
-    "no-missing-end-of-source-newline": true
+    "no-missing-end-of-source-newline": true,
+    "color-function-notation": "modern"
   }
 }

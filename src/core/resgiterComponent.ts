@@ -18,16 +18,18 @@ export function registerComponent(name: string, Component: typeof Block) {
 
     (data.root.__children = data.root.__children || []).push({
       component,
-      embed(fragment: DocumentFragment) {
+      embed(fragment: DocumentFragment, isRerender: boolean) {
         const stub = fragment.querySelector(`[${dataAttribute}]`);
 
         if (!stub) {
           return;
         }
 
-        component.getContent()?.append(...Array.from(stub.childNodes));
+        const componentContent = component.getContent(isRerender);
 
-        stub.replaceWith(component.getContent()!);
+        componentContent?.append(...Array.from(stub.childNodes));
+
+        stub.replaceWith(componentContent!);
       },
     });
 

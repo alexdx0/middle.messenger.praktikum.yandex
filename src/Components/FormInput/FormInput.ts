@@ -1,9 +1,9 @@
 import { Block } from "@Core";
+import { Indexed } from "@app/types/Indexed";
 
 import FormInputHbs from "./FormInput.hbs";
 
-interface IFormInputProps {
-  [key: string]: unknown;
+interface IFormInputProps extends Indexed {
   validateFn: (value: string) => boolean;
 }
 

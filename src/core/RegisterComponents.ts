@@ -7,6 +7,5 @@ import * as Components from "@components";
 export const RegisterComponents = () => {
   Object.entries(Components).forEach(([name, component]) => {
     registerComponent(name, component as typeof Block);
-  }
-  );
+  });
 };

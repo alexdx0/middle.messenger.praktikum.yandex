@@ -1,0 +1,10 @@
+<div class="attach-popup-container">
+  {{#if isAttachPopupOpened}}
+  {{{ PopupOverlay onClick=overlayClickHandler}}}
+  <section class="attach-popup">
+    {{{ PopupButton icon="photo-icon" title="Фото или Видео" onClick=addPhotoHandler}}}
+    {{{ PopupButton icon="file-icon" title="Файл" onClick=addFileHandler}}}
+    {{{ PopupButton icon="location-icon" title="Локация" onClick=addLocationHandler}}}
+  </section>
+  {{/if}}
+</div>
