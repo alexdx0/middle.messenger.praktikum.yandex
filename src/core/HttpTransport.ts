@@ -15,7 +15,7 @@ interface HttpMethodOptions {
 export type HttpMethodResp<Tresp> = Promise<{ status: number, response: Tresp }>;
 
 type HTTPTransportMethod<Tresp = unknown> =
-  (url: string, options: HttpMethodOptions, timeout?: number) => HttpMethodResp<Tresp>
+  (url: string, options?: HttpMethodOptions, timeout?: number) => HttpMethodResp<Tresp>
 
 function queryStringify(data: Record<string, unknown>) {
   return !data
@@ -54,7 +54,7 @@ class HTTPTransport {
   };
 
   request: HTTPTransportMethod = (url, options, timeout = 1000) => {
-    const { headers = {}, method, data } = options;
+    const { headers = {}, method, data } = options || defaultHttpOptions;
 
     return new Promise(function(resolve, reject) {
       if (!method) {
@@ -66,7 +66,7 @@ class HTTPTransport {
       xhr.withCredentials = true;
       const isGet = method === HttpMethodsEnum.GET;
 
-      xhr.open(method, url);
+      xhr.open(method, encodeURI(url));
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);

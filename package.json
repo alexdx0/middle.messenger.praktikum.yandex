@@ -18,6 +18,7 @@
     "prepare": "husky install",
     "test": "mocha",
     "test:coverage": "c8 mocha",
+    "test:report": "c8 -r html report",
     "precommit": "npm run lint && npm run styleLint && npm run test"
   },
   "devDependencies": {

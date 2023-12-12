@@ -37,7 +37,7 @@ npm run test
 npm run precommit
 
 - запуск тестов с генерацией отчета по покрытию:
-npm run test:coverage
+npm run test:report
 
 ### Роутинг в приложении
 / — страница входа  
