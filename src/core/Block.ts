@@ -145,6 +145,7 @@ export class Block<Tprops extends BlockPropsType = BlockPropsType, Trefs extends
 
   _componentWillUnmount() {
     this.componentWillUnmount();
+    this._removeEvents();
   }
 
   componentWillUnmount() {

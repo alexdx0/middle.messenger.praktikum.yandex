@@ -10,7 +10,7 @@ import { Block } from "../Block";
 
 const basePath = "http://localhost:3000";
 
-describe.skip("Класс Router", () => {
+describe("Класс Router", () => {
   let GlobalRouter: Router;
   let GlobalComponent: typeof Block;
 

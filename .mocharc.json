@@ -4,7 +4,7 @@
   "spec": [
     "src/**/*.test.*"
   ],
-  "require": "./mochaSetup.js",
+  "require": "./mochaSetup.mjs",
   "watch-files": [
     "src"
   ]
